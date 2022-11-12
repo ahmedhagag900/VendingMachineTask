@@ -1,5 +1,11 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using FlapKap.Core.Repositories;
+using FlapKap.Core.UnitOfWork;
+using FlapKap.Infrastructure.PipeLines;
+using FlapKap.Infrastructure.Repositories;
+using FlapKap.Infrastructure.UoW;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace FlapKap.Infrastructure.IoC
 {
@@ -16,13 +22,37 @@ namespace FlapKap.Infrastructure.IoC
             return services;
         }
 
-        private static IServiceCollection RegisterInfraStructureServices(IServiceCollection services)
+        public static IServiceCollection RegisterInfraStructureServices(IServiceCollection services)
         {
 
-           // services.AddMediatr
+            services.AddMediatR(typeof(DependancyRegister).Assembly);
+
+            services.AddScoped(typeof(IPipelineBehavior<,>), typeof(UnitOfWorkPipeLine<,>));
+
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<IRoleRepository, RoleRepository>();
+            services.AddScoped(typeof(IBaseRepository<>),typeof(BaseRepository<>));
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             return services;
         }
+
+
+        /// <summary>
+        /// used for testing and if you dont need to install sql server db
+        /// </summary>
+        /// <param name="services"></param>
+        /// <returns></returns>
+        public static IServiceCollection RegisterInMemmoryDBContext(this IServiceCollection services)
+        {
+            services.AddDbContext<VendingMachieneContext>(opt =>
+            {
+                opt.UseInMemoryDatabase("VendingMacheine");
+            });
+            return services;
+        }
+
 
     }
 }
