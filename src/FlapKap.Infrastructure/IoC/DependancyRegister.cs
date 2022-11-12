@@ -1,4 +1,5 @@
-﻿using FlapKap.Core.Repositories;
+﻿using FlapKap.Core;
+using FlapKap.Core.Repositories;
 using FlapKap.Core.UnitOfWork;
 using FlapKap.Infrastructure.PipeLines;
 using FlapKap.Infrastructure.Repositories;
@@ -22,7 +23,7 @@ namespace FlapKap.Infrastructure.IoC
             return services;
         }
 
-        public static IServiceCollection RegisterInfraStructureServices(IServiceCollection services)
+        public static IServiceCollection RegisterInfraStructureServices(this IServiceCollection services)
         {
 
             services.AddMediatR(typeof(DependancyRegister).Assembly);
@@ -33,6 +34,7 @@ namespace FlapKap.Infrastructure.IoC
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IRoleRepository, RoleRepository>();
             services.AddScoped(typeof(IBaseRepository<>),typeof(BaseRepository<>));
+            services.AddScoped<IExecutionContext, ExecutionContext>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             return services;

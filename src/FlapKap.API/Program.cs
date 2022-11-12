@@ -1,4 +1,5 @@
 using FlapKap.API.Configuration;
+using FlapKap.Infrastructure.IoC;
 
 namespace FlapKap.API
 {
@@ -11,6 +12,10 @@ namespace FlapKap.API
             // Add services to the container.
 
             builder = builder.ConfigureBaseServices();
+
+            builder.Services
+                .RegisterInMemmoryDBContext()
+                .RegisterInfraStructureServices();
 
 
             var app = builder.Build();
