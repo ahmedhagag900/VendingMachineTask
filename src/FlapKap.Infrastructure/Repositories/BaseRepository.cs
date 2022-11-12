@@ -14,36 +14,35 @@ namespace FlapKap.Infrastructure.Repositories
             _entities = _context.Set<T>();
 
         }
-        public IEnumerable<T> GetData(Expression<Func<T,bool>>? predicate)
-        {
-            var query = _entities.AsQueryable();
-            if(predicate != null)
-                query = query.Where(predicate);
-            return query.ToList();
-        }
 
-        public async Task<IEnumerable<T>> GetAsync(Expression<Func<T,bool>>? predicate = null)
+        public async Task<IEnumerable<T>> GetAsync(Expression<Func<T,bool>>? predicate = null,List<Expression<Func<T,object>>>? includes=null,CancellationToken cancellationToken=default)
         {
             var query = _entities.AsQueryable();
             if (predicate != null)
                 query = query.Where(predicate);
+            if(includes != null)
+            {
+                foreach (var include in includes)
+                    query = query.Include(include);
+            }    
 
-            return await query.ToListAsync();
+            return await query.ToListAsync(cancellationToken);
         }
 
-        public T GetById(int id)
+        public async Task<T?> GetByIdAsync(int id, List<Expression<Func<T, object>>>? includes = null, CancellationToken cancellationToken = default)
         {
-            return _entities.Find(id);
+            var query = _entities.AsQueryable();
+            if (includes != null)
+            {
+                foreach (var include in includes)
+                    query = query.Include(include);
+            }
+            return await query.SingleOrDefaultAsync(cancellationToken);
         }
 
-        public async Task<T> GetByIdAsync(int id)
+        public async Task<T> AddAsync(T entity,CancellationToken cancellationToken)
         {
-            return await _entities.FindAsync(id);
-        }
-
-        public T Add(T entity)
-        {
-            _entities.Add(entity);
+            await _entities.AddAsync(entity,cancellationToken);
             return entity;
         }
 
@@ -63,5 +62,6 @@ namespace FlapKap.Infrastructure.Repositories
         {
             return _entities;
         }
+        
     }
 }

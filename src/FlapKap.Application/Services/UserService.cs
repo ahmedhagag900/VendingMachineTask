@@ -24,7 +24,7 @@ namespace FlapKap.Application.Services
             _userRepository=userRepository?? throw new ArgumentNullException(nameof(userRepository));  
             _unitOfWork=unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
         }
-        public async Task<UserModel> Add(UserModel model)
+        public async Task<UserModel> Add(UserModel model,CancellationToken cancellationToken)
         {
             var user = new User
             {
@@ -34,8 +34,8 @@ namespace FlapKap.Application.Services
                 RoleId = model.RoleId
             };
 
-            var added=_userRepository.Add(user);
-            await _unitOfWork.CompleteAsync();
+            var added=await _userRepository.AddAsync(user,cancellationToken);
+            await _unitOfWork.CompleteAsync(cancellationToken);
             return new UserModel
             {
                 Id = added.Id,
@@ -78,7 +78,7 @@ namespace FlapKap.Application.Services
             };
         }
 
-        public async Task<UserModel> Update(UserModel model)
+        public async Task<UserModel> Update(UserModel model,CancellationToken cancellationToken)
         {
             var userToUpdate = await _userRepository.GetByIdAsync(model.Id);
             if (userToUpdate == null)
@@ -93,7 +93,7 @@ namespace FlapKap.Application.Services
             userToUpdate.Password = await _cryprographyService.HashAsync(model.Password);
 
             var updated=_userRepository.Update(userToUpdate);
-            await _unitOfWork.CompleteAsync();
+            await _unitOfWork.CompleteAsync(cancellationToken);
             return new UserModel
             {
                 Id = updated.Id,

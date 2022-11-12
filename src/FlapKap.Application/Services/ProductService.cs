@@ -25,7 +25,7 @@ namespace FlapKap.Application.Services
             _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));    
             _executionContext = executionContext ?? throw new ArgumentNullException(nameof(executionContext));
         }
-        public async Task<ProductModel> Add(ProductModel model)
+        public async Task<ProductModel> Add(ProductModel model, CancellationToken cancellationToken)
         {
             var product = new Product
             {
@@ -34,8 +34,8 @@ namespace FlapKap.Application.Services
                 Price = model.Price,
                 SellerId = _executionContext.UserId
             };
-            var added=_productRepository.Add(product);
-            await _unitOfWork.CompleteAsync();
+            var added=await _productRepository.AddAsync(product,cancellationToken);
+            await _unitOfWork.CompleteAsync(cancellationToken);
 
             return new ProductModel
             {
@@ -87,7 +87,7 @@ namespace FlapKap.Application.Services
 
         }
 
-        public async  Task<ProductModel> Update(ProductModel model)
+        public async  Task<ProductModel> Update(ProductModel model, CancellationToken cancellationToken)
         {
             //add includes
             var productToUpdate = await _productRepository.GetByIdAsync(model.Id);
@@ -99,7 +99,7 @@ namespace FlapKap.Application.Services
             productToUpdate.AvailableAmount = model.AvailableAmount;
 
             var updated=_productRepository.Update(productToUpdate);
-            await _unitOfWork.CompleteAsync();
+            await _unitOfWork.CompleteAsync(cancellationToken);
 
             return new ProductModel
             {

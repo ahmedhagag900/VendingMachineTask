@@ -23,16 +23,24 @@ namespace FlapKap.Infrastructure.IoC
             return services;
         }
 
-        public static IServiceCollection RegisterInfraStructureServices(this IServiceCollection services)
+        public static IServiceCollection RegisterInfraStructureServices(this IServiceCollection services,bool inMemotyDb=true)
         {
 
             services.AddMediatR(typeof(DependancyRegister).Assembly);
 
-            services.AddScoped(typeof(IPipelineBehavior<,>), typeof(TransactionPipeLine<,>));
-
+            // if set to ture then regester the in memory data base pipeLine 
+            if (inMemotyDb)
+            {
+                services.AddScoped(typeof(IPipelineBehavior<,>), typeof(MemoryDBPipeLine<,>));
+            }
+            else //regeister the transaction pipe line 
+            {
+                services.AddScoped(typeof(IPipelineBehavior<,>), typeof(TransactionPipeLine<,>));
+            }
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IRoleRepository, RoleRepository>();
+            
             services.AddScoped(typeof(IBaseRepository<>),typeof(BaseRepository<>));
             services.AddScoped<IExecutionContext, ExecutionContext>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -50,7 +58,7 @@ namespace FlapKap.Infrastructure.IoC
         {
             services.AddDbContext<VendingMachieneContext>(opt =>
             {
-                opt.UseInMemoryDatabase("VendingMacheine");
+                opt.UseInMemoryDatabase("memoryDb");
             });
             return services;
         }

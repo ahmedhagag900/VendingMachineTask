@@ -15,9 +15,9 @@ namespace FlapKap.Infrastructure.UoW
         {
             _context = context ?? throw new ArgumentNullException(nameof(context)); 
         }
-        public async Task CompleteAsync()
+        public async Task CompleteAsync(CancellationToken cancellationToken)
         {
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(cancellationToken);
         }
     }
 }

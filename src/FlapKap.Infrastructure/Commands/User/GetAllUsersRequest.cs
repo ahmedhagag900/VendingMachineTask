@@ -3,13 +3,13 @@ using FlapKap.Application.Models;
 using FlapKap.Core.Repositories;
 using MediatR;
 
-namespace FlapKap.Infrastructure.Commands
+namespace FlapKap.Infrastructure.Commands.User
 {
-    public class GetAllUsersRequest:IRequest<IEnumerable<UserModel>>
+    public class GetAllUsersRequest : IRequest<IEnumerable<UserModel>>
     {
     }
 
-    public class GetAllUsersRequestHandler : IRequestHandler<GetAllUsersRequest,IEnumerable<UserModel>>
+    public class GetAllUsersRequestHandler : IRequestHandler<GetAllUsersRequest, IEnumerable<UserModel>>
     {
         private readonly IUserService _userService;
         public GetAllUsersRequestHandler(IUserService userService)

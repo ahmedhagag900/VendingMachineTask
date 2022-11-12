@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FlapKap.Infrastructure.PipeLines
 {
-    internal class TransactionPipeLine<TIn,TOut> : IPipelineBehavior<TIn, TOut> where TIn : IRequest<TOut>
+    internal class TransactionPipeLine<TRequest,TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
     {
         private readonly VendingMachieneContext _context;
         private readonly IUnitOfWork _unitOfWork;
@@ -13,23 +13,24 @@ namespace FlapKap.Infrastructure.PipeLines
             _context = context ?? throw new ArgumentNullException(nameof(context));
             _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
         }
-        public async Task<TOut> Handle(TIn request, RequestHandlerDelegate<TOut> next, CancellationToken cancellationToken)
+        public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
         {
             try
             {
-                TOut response = default(TOut);
+                TResponse response = default(TResponse);
                 var stratagy = _context.Database.CreateExecutionStrategy();
-                
+
                 await stratagy.ExecuteAsync(async () =>
                 {
                     await _context.Database.BeginTransactionAsync();
-                    response=await next();
-                    await _unitOfWork.CompleteAsync();
+                    response = await next();
+                    await _unitOfWork.CompleteAsync(cancellationToken);
                     await _context.Database.CommitTransactionAsync();
                 });
 
                 return response;
-            }catch(Exception)
+            }
+            catch (Exception)
             {
                 await _context.Database.RollbackTransactionAsync();
                 throw;

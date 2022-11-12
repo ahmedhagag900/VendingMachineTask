@@ -1,4 +1,5 @@
 using FlapKap.API.Configuration;
+using FlapKap.Application.IoC;
 using FlapKap.Infrastructure.IoC;
 
 namespace FlapKap.API
@@ -15,7 +16,10 @@ namespace FlapKap.API
 
             builder.Services
                 .RegisterInMemmoryDBContext()
+                .RegisterApplicationServices()
                 .RegisterInfraStructureServices();
+
+            builder.Services.AddHttpContextAccessor();
 
 
             var app = builder.Build();

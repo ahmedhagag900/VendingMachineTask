@@ -4,11 +4,9 @@ namespace FlapKap.Core.Repositories
 {
     public interface IBaseRepository<T> where T : class
     {
-        T GetById(int id);
-        IEnumerable<T> GetData(Expression<Func<T,bool>>? predicate=null);
-        Task<T> GetByIdAsync(int id);
-        Task<IEnumerable<T>> GetAsync(Expression<Func<T,bool>>? predicate = null);
-        T Add(T entity);
+        Task<T> GetByIdAsync(int id, List<Expression<Func<T, object>>>? includes = null, CancellationToken cancellationToken=default);
+        Task<IEnumerable<T>> GetAsync(Expression<Func<T,bool>>? predicate = null,List<Expression<Func<T,object>>>? includes=null,CancellationToken cancellationToken=default);
+        Task<T> AddAsync(T entity,CancellationToken cancellationToken);
         T Update(T entity);
         T Delete(T entity);
         IQueryable<T> Query();

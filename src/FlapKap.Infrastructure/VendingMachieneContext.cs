@@ -10,13 +10,18 @@ namespace FlapKap.Infrastructure
     internal class VendingMachieneContext:DbContext
     {
 
-        
+        public VendingMachieneContext(DbContextOptions<VendingMachieneContext> options) : base(options)
+        {
+
+        }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(VendingMachieneContext).Assembly);
-           
+           base.OnModelCreating(modelBuilder);
         }
+
 
     }
 }
