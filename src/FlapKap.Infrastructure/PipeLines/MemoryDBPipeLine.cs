@@ -17,9 +17,15 @@ namespace FlapKap.Infrastructure.PipeLines
         }
         public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
         {
-            var res = await next();
-            await _unitOfWork.CompleteAsync(cancellationToken);
-            return res;
+            try
+            {
+                var res = await next();
+                await _unitOfWork.CompleteAsync(cancellationToken);
+                return res;
+            }catch(Exception)
+            {
+                throw;
+            }
         }
     }
 }

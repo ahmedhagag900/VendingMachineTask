@@ -29,6 +29,7 @@ namespace FlapKap.API
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
+                app.UseDeveloperExceptionPage();
             }
 
             app.UseAuthorization();
