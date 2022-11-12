@@ -27,7 +27,7 @@ namespace FlapKap.Infrastructure.IoC
 
             services.AddMediatR(typeof(DependancyRegister).Assembly);
 
-            services.AddScoped(typeof(IPipelineBehavior<,>), typeof(UnitOfWorkPipeLine<,>));
+            services.AddScoped(typeof(IPipelineBehavior<,>), typeof(TransactionPipeLine<,>));
 
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
