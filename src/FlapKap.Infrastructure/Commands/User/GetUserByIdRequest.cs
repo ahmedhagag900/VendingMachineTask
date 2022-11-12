@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace FlapKap.Infrastructure.Commands.User
 {
-    public class GetUserByIdRequest:IRequest<UserModel>
+    public class GetUserByIdRequest:QueryBase,IRequest<UserModel>
     {
         public GetUserByIdRequest(int userId)
         {
@@ -19,7 +19,7 @@ namespace FlapKap.Infrastructure.Commands.User
         public int UserId { get; }
     }
 
-    public class GetUserByIdRequstHandler : IRequestHandler<GetUserByIdRequest, UserModel>
+    internal class GetUserByIdRequstHandler : IRequestHandler<GetUserByIdRequest, UserModel>
     {
         private readonly IUserService _userService;
 

@@ -17,7 +17,7 @@ namespace FlapKap.Infrastructure.Commands.User
         public int UserId { get; }
     }
 
-    public class DeleteUserCommandHandler : IRequestHandler<DeleteUserCommand, Unit>
+    internal class DeleteUserCommandHandler : IRequestHandler<DeleteUserCommand, Unit>
     {
         private readonly IUserService _userService;
 

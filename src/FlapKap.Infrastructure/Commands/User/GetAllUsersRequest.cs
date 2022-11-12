@@ -5,11 +5,11 @@ using MediatR;
 
 namespace FlapKap.Infrastructure.Commands.User
 {
-    public class GetAllUsersRequest : IRequest<IEnumerable<UserModel>>
+    public class GetAllUsersRequest :QueryBase, IRequest<IEnumerable<UserModel>>
     {
     }
 
-    public class GetAllUsersRequestHandler : IRequestHandler<GetAllUsersRequest, IEnumerable<UserModel>>
+    internal class GetAllUsersRequestHandler : IRequestHandler<GetAllUsersRequest, IEnumerable<UserModel>>
     {
         private readonly IUserService _userService;
         public GetAllUsersRequestHandler(IUserService userService)

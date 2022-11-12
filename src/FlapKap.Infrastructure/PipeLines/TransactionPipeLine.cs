@@ -1,6 +1,8 @@
 ﻿using FlapKap.Core.UnitOfWork;
+using FlapKap.Infrastructure.Commands;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System.Threading;
 
 namespace FlapKap.Infrastructure.PipeLines
 {
@@ -15,8 +17,30 @@ namespace FlapKap.Infrastructure.PipeLines
         }
         public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
         {
+            //if query 
+            if (request is QueryBase)
+            {
+                return await HandleQueryReuest(next);
+            }
+            else
+            {
+                return await HandleCommandRequest(next,cancellationToken);
+            }
+            
+
+        }
+
+        private async Task<TResponse> HandleQueryReuest(RequestHandlerDelegate<TResponse> next)
+        {
+            _context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+            return await next();
+
+        }
+        private async Task <TResponse> HandleCommandRequest(RequestHandlerDelegate<TResponse> next,CancellationToken cancellationToken)
+        {
             try
             {
+
                 TResponse response = default(TResponse);
                 var stratagy = _context.Database.CreateExecutionStrategy();
 
@@ -35,7 +59,6 @@ namespace FlapKap.Infrastructure.PipeLines
                 await _context.Database.RollbackTransactionAsync();
                 throw;
             }
-
         }
     }
 }

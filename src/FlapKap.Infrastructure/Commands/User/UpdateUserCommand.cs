@@ -18,7 +18,7 @@ namespace FlapKap.Infrastructure.Commands.User
         public UserModel User { get; } 
     }
 
-    public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, UserModel>
+    internal class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, UserModel>
     {
         private readonly IUserService _userService;
         public UpdateUserCommandHandler(IUserService userService)

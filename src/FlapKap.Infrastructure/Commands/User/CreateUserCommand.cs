@@ -19,7 +19,7 @@ namespace FlapKap.Infrastructure.Commands.User
         public UserModel User { get;}
     }
 
-    public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, UserModel>
+    internal class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, UserModel>
     {
         private readonly IUserService _userService;
         public CreateUserCommandHandler(IUserService userService)
