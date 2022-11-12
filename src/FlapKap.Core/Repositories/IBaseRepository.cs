@@ -5,9 +5,12 @@ namespace FlapKap.Core.Repositories
     public interface IBaseRepository<T> where T : class
     {
         T GetById(int id);
-        IEnumerable<T> Get(Expression<Predicate<T>> predicate);
+        IEnumerable<T> GetData(Expression<Func<T,bool>>? predicate=null);
         Task<T> GetByIdAsync(int id);
-        Task<IEnumerable<T>> GetAsync(Expression<Predicate<T>>? predicate = null, Expression<Action<T>>? orderBy = null, int? skip = null, int? take = null);
-
+        Task<IEnumerable<T>> GetAsync(Expression<Func<T,bool>>? predicate = null);
+        T Add(T entity);
+        T Update(T entity);
+        T Delete(T entity);
+        IQueryable<T> Query();
     }
 }
