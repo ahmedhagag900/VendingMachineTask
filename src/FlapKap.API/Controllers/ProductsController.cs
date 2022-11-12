@@ -1,5 +1,5 @@
 ﻿using FlapKap.Application.Models;
-using FlapKap.Infrastructure.Commands.User;
+using FlapKap.Infrastructure.Commands.Product;
 using MediatR;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
@@ -26,9 +26,8 @@ namespace FlapKap.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetAllProducts(CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
-            //var result = await _mediator.Send(new GetAllUsersRequest(), cancellationToken);
-            //return Ok(result);
+            var result = await _mediator.Send(new GetAllProductsRequest(), cancellationToken);
+            return Ok(result);
         }
 
 
@@ -38,9 +37,8 @@ namespace FlapKap.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetProductById([FromRoute] int productId, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
-            //var result = await _mediator.Send(new GetUserByIdRequest(userId), cancellationToken);
-            //return Ok(result);
+            var result = await _mediator.Send(new GetProductByIdRequest(productId), cancellationToken);
+            return Ok(result);
         }
 
         [HttpPost]
@@ -48,24 +46,22 @@ namespace FlapKap.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> CreateProduct(ProductModel product, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
-            //var result = await _mediator.Send(new CreateUserCommand(user), cancellationToken);
+            var result = await _mediator.Send(new CreateProductCommand(product), cancellationToken);
 
 
-            //var serverUrl = _httpContextAccessor.HttpContext.Request.GetDisplayUrl();
-            //var createdResource = Path.Combine(serverUrl, result.Id.ToString());
+            var serverUrl = _httpContextAccessor.HttpContext.Request.GetDisplayUrl();
+            var createdResource = Path.Combine(serverUrl, result.Id.ToString());
 
-            //return Created(new Uri(createdResource), result);
+            return Created(new Uri(createdResource), result);
         }
 
         [HttpPut]
         [ProducesResponseType(typeof(ProductModel), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> UpdateProduct(ProductModel user, CancellationToken cancellationToken)
+        public async Task<IActionResult> UpdateProduct(ProductModel product, CancellationToken cancellationToken)
         {
-            throw new  NotImplementedException();
-            //var result = await _mediator.Send(new UpdateUserCommand(user), cancellationToken);
-            //return Ok(result);
+            var result = await _mediator.Send(new UpdateProductCommand(product), cancellationToken);
+            return Ok(result);
         }
 
         [HttpDelete]
@@ -74,9 +70,8 @@ namespace FlapKap.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> DeleteUser([FromRoute] int productId, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
-            //await _mediator.Send(new DeleteUserCommand(userId), cancellationToken);
-            //return NoContent();
+            await _mediator.Send(new DeleteProductCommand(productId), cancellationToken);
+            return NoContent();
         }
 
     }
