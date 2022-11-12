@@ -1,5 +1,6 @@
 using FlapKap.API.Configuration;
 using FlapKap.Application.IoC;
+using FlapKap.Core;
 using FlapKap.Infrastructure.IoC;
 
 namespace FlapKap.API
@@ -21,6 +22,8 @@ namespace FlapKap.API
 
             builder.Services.AddHttpContextAccessor();
 
+            var settings=builder.Configuration.Get<VendingMachecineSettings>();
+            builder.Services.AddSingleton(typeof(VendingMachecineSettings), settings);
 
             var app = builder.Build();
 

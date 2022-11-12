@@ -9,5 +9,6 @@ namespace FlapKap.Application.Interfaces
 {
     public interface IUserService:IBaseCRUDService<UserModel>
     {
+        Task<LoginModel> LoginAsync(string userName, string password);
     }
 }
