@@ -14,8 +14,8 @@ namespace FlapKap.Infrastructure.EntitiesConfiguration
                 .WithMany(p=>p.Products)
                 .HasForeignKey(p => p.SellerId)
                 .OnDelete(DeleteBehavior.Cascade);
-            
-            builder.HasIndex(p => p.SellerId).IsUnique(false);
+
+            builder.HasIndex(p => p.SellerId).IsClustered(false);
 
         }
     }

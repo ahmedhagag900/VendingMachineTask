@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace FlapKap.Core.Enums
 {
-    public enum UserRole
+    public enum ErrorCode
     {
-        Buyer=1,
-        Seller=2,
-        SA=3
+        UserNameExists=1,
+        UserDoesNotExists=2,
+        RoleDoseNotExisits=3,
     }
 }

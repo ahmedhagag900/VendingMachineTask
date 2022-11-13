@@ -13,9 +13,9 @@ namespace FlapKap.Infrastructure.EntitiesConfiguration
 
             builder.HasData(new[]
             {
-                new Role{Id=(int)UserRoles.Buyer,Name="buyer"},
-                new Role{Id=(int)UserRoles.Seller,Name="seller"},
-                new Role{Id=(int)UserRoles.SA,Name="Supper Admin"}
+                new Role{Id=(int)UserRole.Buyer,Name="buyer"},
+                new Role{Id=(int)UserRole.Seller,Name="seller"},
+                new Role{Id=(int)UserRole.SA,Name="Supper Admin"}
             });
 
         }

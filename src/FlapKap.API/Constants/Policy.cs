@@ -1,4 +1,4 @@
-﻿namespace FlapKap.API.Helpers
+﻿namespace FlapKap.API.Constants
 {
     public static class Policy
     {

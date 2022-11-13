@@ -1,18 +1,21 @@
-﻿using FlapKap.Application.Interfaces;
+﻿using FlapKap.Application.BusinessRules.UserRules;
+using FlapKap.Application.Interfaces;
 using FlapKap.Application.Models;
 using FlapKap.Core;
 using FlapKap.Core.Entities;
+using FlapKap.Core.Enums;
 using FlapKap.Core.Repositories;
 using FlapKap.Core.UnitOfWork;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
 using System.Linq.Expressions;
+using System.Reflection;
 using System.Security.Claims;
 using System.Text;
 
 namespace FlapKap.Application.Services
 {
-    internal class UserService : IUserService
+    internal class UserService : ServiceBase, IUserService
     {
         private readonly IUserRepository _userRepository;
         private readonly ICryprographyService _cryprographyService;
@@ -30,12 +33,14 @@ namespace FlapKap.Application.Services
         }
         public async Task<UserModel> Add(UserModel model,CancellationToken cancellationToken)
         {
+            await CheckRule(new UserNameShouldBeUniqueRule(model.UserName, _userRepository));
+
             var user = new User
             {
                 UserName = model.UserName,
                 Password = await _cryprographyService.HashAsync(model.Password),
                 Name = model.Name,
-                RoleId = model.RoleId
+                RoleId = (int)model.RoleId
             };
 
             var added=await _userRepository.AddAsync(user,cancellationToken);
@@ -45,15 +50,16 @@ namespace FlapKap.Application.Services
                 Id = added.Id,
                 UserName = added.UserName,
                 Name = added.Name,
-                RoleId=added.RoleId
+                RoleId=(UserRole)added.RoleId
             };
         }
 
         public async Task Delete(int id)
         {
+            await CheckRule(new UserExsitsRule(id, _userRepository));
+           
             var userToDelete = await _userRepository.GetByIdAsync(id);
-            if(userToDelete!=null)
-                _userRepository.Delete(userToDelete);
+            _userRepository.Delete(userToDelete);
         }
 
         public async Task<IEnumerable<UserModel>> GetAll()
@@ -62,28 +68,31 @@ namespace FlapKap.Application.Services
             {
                 Id = u.Id,
                 Name = u.Name,
-                RoleId = u.RoleId,
+                RoleId = (UserRole)u.RoleId,
                 UserName = u.UserName
             });
         }
 
         public async Task<UserModel> GetById(int id)
         {
-            var user= await _userRepository.GetByIdAsync(id);
-            if (user == null)
-                return new UserModel();
-
+            await CheckRule(new UserExsitsRule(id, _userRepository));
+           
+            var user = await _userRepository.GetByIdAsync(id);
+           
             return new UserModel
             {
                 UserName = user.UserName,
                 Id = user.Id,
                 Name = user.Name,
-                RoleId = user.RoleId
+                RoleId = (UserRole)user.RoleId
             };
         }
 
         public async Task<LoginModel> LoginAsync(string userName, string password)
         {
+
+            await CheckRule(new UserExsitsRule(userName, _userRepository));
+
             Expression<Func<User, object>> roleInclude = usr => usr.Role;
             var user = (await _userRepository
                 .GetAsync(usr => usr.UserName == userName,
@@ -91,6 +100,7 @@ namespace FlapKap.Application.Services
                 .SingleOrDefault();
 
             var hashedPassword = await _cryprographyService.HashAsync(password);
+            
             if(hashedPassword==user.Password)
             {
                 return new LoginModel
@@ -99,6 +109,31 @@ namespace FlapKap.Application.Services
                 };
             }
             return new LoginModel();
+        }
+
+        public async Task<UserModel> Update(UserModel model,CancellationToken cancellationToken)
+        {
+            await CheckRule(new UserExsitsRule(model.Id, _userRepository));
+            await CheckRule(new UserNameShouldBeUniqueRule(model.UserName, _userRepository));
+
+
+            var userToUpdate = await _userRepository.GetByIdAsync(model.Id);
+            
+
+            userToUpdate.UserName = model.UserName;
+            userToUpdate.RoleId = (int)model.RoleId;
+            userToUpdate.Name = model.Name;
+            userToUpdate.Password = await _cryprographyService.HashAsync(model.Password);
+
+            var updated=_userRepository.Update(userToUpdate);
+            await _unitOfWork.CompleteAsync(cancellationToken);
+            return new UserModel
+            {
+                Id = updated.Id,
+                Name = updated.Name,
+                UserName = updated.UserName,
+                RoleId = (UserRole)updated.RoleId
+            };
         }
 
         private string GenerateAccessToken(User user)
@@ -110,9 +145,9 @@ namespace FlapKap.Application.Services
                 new Claim(ClaimTypes.Role,user.RoleId.ToString())
             };
 
-            var key =  _settings.JWTOptions.SecretKey;
+            var key = _settings.JWTOptions.SecretKey;
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
-            
+
             var descriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
@@ -122,37 +157,12 @@ namespace FlapKap.Application.Services
                 SigningCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256)
             };
 
-            
+
             var handler = new JsonWebTokenHandler();
 
 
             return handler.CreateToken(descriptor);
         }
 
-
-        public async Task<UserModel> Update(UserModel model,CancellationToken cancellationToken)
-        {
-            var userToUpdate = await _userRepository.GetByIdAsync(model.Id);
-            if (userToUpdate == null)
-                return new UserModel();
-
-
-            //role to check user name and role id;
-
-            userToUpdate.UserName = model.UserName;
-            userToUpdate.RoleId = model.RoleId;
-            userToUpdate.Name = model.Name;
-            userToUpdate.Password = await _cryprographyService.HashAsync(model.Password);
-
-            var updated=_userRepository.Update(userToUpdate);
-            await _unitOfWork.CompleteAsync(cancellationToken);
-            return new UserModel
-            {
-                Id = updated.Id,
-                Name = updated.Name,
-                UserName = updated.UserName,
-                RoleId = updated.RoleId
-            };
-        }
     }
 }

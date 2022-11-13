@@ -1,5 +1,5 @@
 using FlapKap.API.Configuration;
-using FlapKap.API.Helpers;
+using FlapKap.API.Constants;
 using FlapKap.Application.IoC;
 using FlapKap.Core;
 using FlapKap.Core.Enums;
@@ -53,12 +53,12 @@ namespace FlapKap.API
                 option.AddPolicy(Policy.Seller, builder =>
                 {
                     builder.RequireAuthenticatedUser();
-                    builder.RequireClaim(ClaimTypes.Role, ((int)UserRoles.Seller).ToString());
+                    builder.RequireClaim(ClaimTypes.Role, ((int)UserRole.Seller).ToString());
                 });
                 option.AddPolicy(Policy.Buyer, builder =>
                 {
                     builder.RequireAuthenticatedUser();
-                    builder.RequireClaim(ClaimTypes.Role, ((int)UserRoles.Buyer).ToString());
+                    builder.RequireClaim(ClaimTypes.Role, ((int)UserRole.Buyer).ToString());
                 });
             });
 

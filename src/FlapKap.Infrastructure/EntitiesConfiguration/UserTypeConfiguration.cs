@@ -14,7 +14,9 @@ namespace FlapKap.Infrastructure.EntitiesConfiguration
                 .HasForeignKey(p => p.RoleId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasIndex(p => p.RoleId).IsUnique(false);    
+
+            builder.HasIndex(p => p.UserName).IsUnique();
+            builder.HasIndex(p => p.RoleId).IsClustered(false);    
 
         }
     }
