@@ -18,7 +18,7 @@ namespace FlapKap.Application.BusinessRules.UserRules
             _userName = userName;
             _userRepository = userRepository??throw new ArgumentNullException(nameof(userRepository));
         }
-        public ErrorCode ErrorCode => ErrorCode.UserNameExists;
+        public ApplicationCode ErrorCode => ApplicationCode.UserNameExists;
 
         public string Message => $"This email{_userName} already exists";
 

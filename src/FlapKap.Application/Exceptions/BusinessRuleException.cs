@@ -9,8 +9,8 @@ namespace FlapKap.Application.Exceptions
 {
     public class BusinessRuleException:Exception
     {
-        public ErrorCode ErrorCode { get; }
-        public BusinessRuleException(string message,ErrorCode error):base(message)
+        public ApplicationCode ErrorCode { get; }
+        public BusinessRuleException(string message,ApplicationCode error):base(message)
         {
             ErrorCode = error;
         }

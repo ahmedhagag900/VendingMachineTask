@@ -9,7 +9,7 @@ namespace FlapKap.Application.Interfaces
 {
     internal interface IBusinessRule
     {
-        public ErrorCode ErrorCode { get; }
+        public ApplicationCode ErrorCode { get; }
         public string Message { get; }
         Task<bool> IsBroken();
     }

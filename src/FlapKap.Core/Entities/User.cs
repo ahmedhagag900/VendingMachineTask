@@ -17,6 +17,7 @@ namespace FlapKap.Core.Entities
         public string Name { get; set; }
         public string Password { get; set; }
         public int RoleId { get; set; }
+        public double Deposit { get; set; }
 
         public virtual Role Role { get; set; }
         public virtual ICollection<Product> Products { get; set; }

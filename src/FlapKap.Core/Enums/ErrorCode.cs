@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 
 namespace FlapKap.Core.Enums
 {
-    public enum ErrorCode
+    public enum ApplicationCode
     {
         UserNameExists=1,
         UserDoesNotExists=2,
         RoleDoseNotExisits=3,
+
+        ServerError=500
     }
 }

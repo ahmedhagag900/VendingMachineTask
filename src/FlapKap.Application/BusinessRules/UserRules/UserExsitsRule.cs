@@ -19,7 +19,7 @@ namespace FlapKap.Application.BusinessRules.UserRules
             _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
             _userName = userName;
         }
-        public ErrorCode ErrorCode => ErrorCode.UserDoesNotExists;
+        public ApplicationCode ErrorCode => ApplicationCode.UserDoesNotExists;
 
         public string Message => "User not found";
 
