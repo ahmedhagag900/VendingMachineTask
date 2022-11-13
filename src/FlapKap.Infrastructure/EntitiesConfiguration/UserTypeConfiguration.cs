@@ -16,7 +16,7 @@ namespace FlapKap.Infrastructure.EntitiesConfiguration
 
 
             builder.HasIndex(p => p.UserName).IsUnique();
-            builder.HasIndex(p => p.RoleId).IsClustered(false);    
+            builder.HasIndex(p => p.RoleId).IsClustered(false);
 
         }
     }

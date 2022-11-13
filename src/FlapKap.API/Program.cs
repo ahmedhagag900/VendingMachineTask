@@ -60,6 +60,11 @@ namespace FlapKap.API
                     builder.RequireAuthenticatedUser();
                     builder.RequireClaim(ClaimTypes.Role, ((int)UserRole.Buyer).ToString());
                 });
+                option.AddPolicy(Policy.Buyer, builder =>
+                {
+                    builder.RequireAuthenticatedUser();
+                    builder.RequireClaim(ClaimTypes.Role, ((int)UserRole.SA).ToString());
+                });
             });
 
 

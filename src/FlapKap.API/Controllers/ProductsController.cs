@@ -1,6 +1,8 @@
-﻿using FlapKap.Application.Models;
+﻿using FlapKap.API.Constants;
+using FlapKap.Application.Models;
 using FlapKap.Infrastructure.Commands.Product;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
@@ -9,6 +11,7 @@ namespace FlapKap.API.Controllers
 {
     [ApiController]
     [Route("api/[Controller]")]
+    [Authorize(policy:Policy.Seller)]
     public class ProductsController:ControllerBase
     {
         private readonly IMediator _mediator;
@@ -24,6 +27,7 @@ namespace FlapKap.API.Controllers
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<ProductModel>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [AllowAnonymous]
         public async Task<IActionResult> GetAllProducts(CancellationToken cancellationToken)
         {
             var result = await _mediator.Send(new GetAllProductsRequest(), cancellationToken);
@@ -35,6 +39,7 @@ namespace FlapKap.API.Controllers
         [Route("{productId}")]
         [ProducesResponseType(typeof(ProductModel), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [AllowAnonymous]
         public async Task<IActionResult> GetProductById([FromRoute] int productId, CancellationToken cancellationToken)
         {
             var result = await _mediator.Send(new GetProductByIdRequest(productId), cancellationToken);

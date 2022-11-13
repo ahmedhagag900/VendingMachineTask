@@ -2,6 +2,7 @@
 using FlapKap.Application.Models;
 using FlapKap.Infrastructure.Commands.User;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
@@ -10,6 +11,7 @@ namespace FlapKap.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class UsersController:ControllerBase
     {
         private readonly IMediator _mediator;
@@ -43,6 +45,7 @@ namespace FlapKap.API.Controllers
         [HttpPost]
         [ProducesResponseType(typeof(UserModel), (int)HttpStatusCode.Created)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [AllowAnonymous]
         public async Task<IActionResult> CreateUser(UserModel user,CancellationToken cancellationToken)
         {
             var result = await _mediator.Send(new CreateUserCommand(user),cancellationToken);
