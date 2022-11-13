@@ -2,6 +2,10 @@ using FlapKap.API.Configuration;
 using FlapKap.Application.IoC;
 using FlapKap.Core;
 using FlapKap.Infrastructure.IoC;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace FlapKap.API
 {
@@ -22,8 +26,26 @@ namespace FlapKap.API
 
             builder.Services.AddHttpContextAccessor();
 
-            var settings=builder.Configuration.Get<VendingMachecineSettings>();
-            builder.Services.AddSingleton(typeof(VendingMachecineSettings), settings);
+            var settings=builder.Configuration.Get<VendingMachineSettings>();
+            builder.Services.AddSingleton(typeof(VendingMachineSettings), settings);
+
+            builder.Services.AddAuthentication(opt =>
+            {
+                opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(opt =>
+            {
+                opt.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidIssuer = settings.JWTOptions.Issuer,
+                    ValidAudience = settings.JWTOptions.Audience,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(settings.JWTOptions.SecretKey)),
+                    ValidateAudience = true,
+                    ValidateIssuer = true,
+                    //ValidateLifetime=true
+                };
+            });
+
 
             var app = builder.Build();
 
@@ -34,6 +56,7 @@ namespace FlapKap.API
                 app.UseSwaggerUI();
                 app.UseDeveloperExceptionPage();
             }
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

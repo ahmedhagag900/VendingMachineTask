@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FlapKap.Core
 {
-    public class VendingMachecineSettings
+    public class VendingMachineSettings
     {
         public JWTOptions JWTOptions { get; set; }
     }

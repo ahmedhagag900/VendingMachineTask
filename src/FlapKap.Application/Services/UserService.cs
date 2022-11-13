@@ -4,16 +4,11 @@ using FlapKap.Core;
 using FlapKap.Core.Entities;
 using FlapKap.Core.Repositories;
 using FlapKap.Core.UnitOfWork;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace FlapKap.Application.Services
 {
@@ -22,11 +17,11 @@ namespace FlapKap.Application.Services
         private readonly IUserRepository _userRepository;
         private readonly ICryprographyService _cryprographyService;
         private readonly IUnitOfWork _unitOfWork;
-        private readonly VendingMachecineSettings _settings;
+        private readonly VendingMachineSettings _settings;
         public UserService(IUserRepository userRepository,
             ICryprographyService cryprographyService,
             IUnitOfWork unitOfWork,
-            VendingMachecineSettings settings)
+            VendingMachineSettings settings)
         {
             _cryprographyService = cryprographyService ?? throw new ArgumentNullException(nameof(cryprographyService));
             _userRepository=userRepository?? throw new ArgumentNullException(nameof(userRepository));  
