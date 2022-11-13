@@ -40,7 +40,6 @@ namespace FlapKap.Application.Services
                 UserName = model.UserName,
                 Password = await _cryprographyService.HashAsync(model.Password),
                 Name = model.Name,
-                Deposit=model.Deposit,
                 RoleId = (int)model.RoleId
             };
 
@@ -127,7 +126,6 @@ namespace FlapKap.Application.Services
             userToUpdate.UserName = model.UserName;
             userToUpdate.RoleId = (int)model.RoleId;
             userToUpdate.Name = model.Name;
-            userToUpdate.Deposit = model.Deposit;
             userToUpdate.Password = await _cryprographyService.HashAsync(model.Password);
 
             var updated=_userRepository.Update(userToUpdate);
