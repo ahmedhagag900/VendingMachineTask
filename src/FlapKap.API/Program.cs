@@ -1,10 +1,12 @@
 using FlapKap.API.Configuration;
+using FlapKap.API.Helpers;
 using FlapKap.Application.IoC;
 using FlapKap.Core;
+using FlapKap.Core.Enums;
 using FlapKap.Infrastructure.IoC;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using System.Security.Claims;
 using System.Text;
 
 namespace FlapKap.API
@@ -44,6 +46,20 @@ namespace FlapKap.API
                     ValidateIssuer = true,
                     //ValidateLifetime=true
                 };
+            });
+
+            builder.Services.AddAuthorization(option =>
+            {
+                option.AddPolicy(Policy.Seller, builder =>
+                {
+                    builder.RequireAuthenticatedUser();
+                    builder.RequireClaim(ClaimTypes.Role, ((int)UserRoles.Seller).ToString());
+                });
+                option.AddPolicy(Policy.Buyer, builder =>
+                {
+                    builder.RequireAuthenticatedUser();
+                    builder.RequireClaim(ClaimTypes.Role, ((int)UserRoles.Buyer).ToString());
+                });
             });
 
 

@@ -1,4 +1,5 @@
-﻿using FlapKap.Application.Models;
+﻿using FlapKap.API.APIRequests.User;
+using FlapKap.Application.Models;
 using FlapKap.Infrastructure.Commands.User;
 using MediatR;
 using Microsoft.AspNetCore.Http.Extensions;
@@ -72,7 +73,15 @@ namespace FlapKap.API.Controllers
             return NoContent();
         }
 
-
+        [HttpPost]
+        [Route("[action]")]
+        [ProducesResponseType(typeof(LoginModel),(int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        public async Task<IActionResult> Login([FromBody]LoginAPIRequest request,CancellationToken cancellationToken)
+        {
+            var result = await _mediator.Send(new LoginCommand(request.UserName, request.Password),cancellationToken);
+            return Ok(result);
+        }
 
     }
 }
