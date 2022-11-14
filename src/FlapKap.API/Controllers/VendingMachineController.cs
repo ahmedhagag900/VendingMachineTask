@@ -1,6 +1,8 @@
-﻿using FlapKap.API.APIRequests.User;
+﻿using FlapKap.API.APIRequests.Product;
+using FlapKap.API.APIRequests.User;
 using FlapKap.API.Constants;
 using FlapKap.Application.Models;
+using FlapKap.Infrastructure.Commands.Product;
 using FlapKap.Infrastructure.Commands.User;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -40,6 +42,18 @@ namespace FlapKap.API.Controllers
             var result = await _mediator.Send(new ResetDepositCommand(), cancellationToken);
             return Ok(result);
         }
+
+        [HttpPost]
+        [Route("buy")]
+        [Authorize(policy: Policy.Buyer)]
+        [ProducesResponseType(typeof(BoughtProductModel), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(MessageModel), (int)HttpStatusCode.BadRequest)]
+        public async Task<IActionResult> BuyProduct([FromBody]BuyProductAPIRequest request, CancellationToken cancellationToken)
+        {
+            var result = await _mediator.Send(new BuyProductCommand(request.ProductId,request.Quantity), cancellationToken);
+            return Ok(result);
+        }
+
 
     }
 }

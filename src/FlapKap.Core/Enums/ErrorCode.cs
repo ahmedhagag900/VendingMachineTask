@@ -11,6 +11,9 @@ namespace FlapKap.Core.Enums
         UserNameExists=1,
         UserDoesNotExists=2,
         RoleDoseNotExisits=3,
+        ProductDoseNotExisits=4,
+        ProductOutOfStock=5,
+        RemainingBalancIsNotEnough=6,
 
         ServerError=500
     }

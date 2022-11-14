@@ -1,4 +1,5 @@
 ﻿using FlapKap.Core;
+using FlapKap.Core.Constatnt;
 using FlapKap.Core.Repositories;
 using FlapKap.Core.UnitOfWork;
 using FlapKap.Infrastructure.PipeLines;
@@ -40,7 +41,10 @@ namespace FlapKap.Infrastructure.IoC
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IRoleRepository, RoleRepository>();
-            
+
+
+            services.AddSingleton(typeof(Constants));
+
             services.AddScoped(typeof(IBaseRepository<>),typeof(BaseRepository<>));
             services.AddScoped<IExecutionContext, ExecutionContext>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();

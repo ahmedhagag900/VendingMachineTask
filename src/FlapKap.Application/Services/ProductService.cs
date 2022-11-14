@@ -1,26 +1,30 @@
-﻿using FlapKap.Application.Interfaces;
+﻿using FlapKap.Application.BusinessRules.ProductRules;
+using FlapKap.Application.Interfaces;
 using FlapKap.Application.Models;
 using FlapKap.Core;
+using FlapKap.Core.Constatnt;
 using FlapKap.Core.Entities;
 using FlapKap.Core.Repositories;
 using FlapKap.Core.UnitOfWork;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Linq.Expressions;
 
 namespace FlapKap.Application.Services
 {
-    internal class ProductService : IProductService
+    internal class ProductService :ServiceBase,  IProductService
     {
         private readonly IProductRepository _productRepository;
+        private readonly IUserRepository _userRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IExecutionContext _executionContext;
+        private readonly Constants _constants;
         public ProductService(IProductRepository productRepository,
             IUnitOfWork unitOfWork,
-            IExecutionContext executionContext)
+            IUserRepository userRepository,
+            IExecutionContext executionContext,
+            Constants constants)
         {
+            _constants=constants?? throw new ArgumentNullException(nameof(constants));
+            _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
             _productRepository = productRepository ?? throw new ArgumentNullException(nameof(productRepository));
             _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));    
             _executionContext = executionContext ?? throw new ArgumentNullException(nameof(executionContext));
@@ -49,11 +53,67 @@ namespace FlapKap.Application.Services
 
         }
 
+        public async Task<BoughtProductModel> Buy(int productId, int quantity)
+        {
+            await CheckRule(new ProductExistRule(productId, _productRepository));
+            await CheckRule(new ProductIsInStockRule(productId,quantity, _productRepository));
+            await CheckRule(new CanBuyProductRule(productId, quantity, _executionContext.UserId, _productRepository, _userRepository));
+
+            Expression<Func<Product, object>> sellerInclude = p => p.Seller;
+
+            var user = await _userRepository.GetByIdAsync(_executionContext.UserId);
+            var product = await _productRepository.GetByIdAsync(productId, new List<Expression<Func<Product, object>>> { sellerInclude });
+            
+            var totalPrice = product.Price * quantity;
+
+            product.AvailableAmount -= quantity;
+            user.Deposit -= totalPrice;
+
+            _userRepository.Update(user);
+            _productRepository.Update(product);
+
+            return new BoughtProductModel
+            {
+                TotalCost = totalPrice,
+                ProductBoughtCount=quantity,
+                Product=new ProductModel
+                {
+                    Id=product.Id,
+                    AvailableAmount=product.AvailableAmount,
+                    Name=product.Name,
+                    Price = product.Price,
+                    SellerId = product.SellerId,
+                    SellerName=product.Seller.Name
+                },
+                Change=new ChangeCoinModel
+                {
+                    Coins=CalculateChange(user.Deposit,_constants.ChangeCoins)
+                }
+            };
+
+        }
+
+        private Dictionary<int,long> CalculateChange(double amount, int[] coins)
+        {
+            Array.Sort(coins);
+            Dictionary<int, long> ans = new Dictionary<int, long>();
+            for (int i = coins.Length;i>=0 ;--i)
+            {
+                if(amount>coins[i])
+                {
+                    long val=((long)amount/coins[i]);
+                    ans.Add(coins[i], val);
+                }
+            }
+            return ans;
+        }
+
         public async Task Delete(int id)
         {
+            await CheckRule(new ProductExistRule(id, _productRepository));
+
             var productToDelete = await _productRepository.GetByIdAsync(id);
-            if (productToDelete != null)
-                _productRepository.Delete(productToDelete);
+            _productRepository.Delete(productToDelete);
         }
 
         public async Task<IEnumerable<ProductModel>> GetAll()
@@ -71,10 +131,11 @@ namespace FlapKap.Application.Services
 
         public async Task<ProductModel> GetById(int id)
         {
-            var product = await _productRepository.GetByIdAsync(id);
-            if (product == null)
-                return new ProductModel();
 
+            await CheckRule(new ProductExistRule(id, _productRepository));
+
+            var product = await _productRepository.GetByIdAsync(id);
+            
             return new ProductModel
             {
                 Id = product.Id,
@@ -89,10 +150,15 @@ namespace FlapKap.Application.Services
 
         public async  Task<ProductModel> Update(ProductModel model, CancellationToken cancellationToken)
         {
+
+            await CheckRule(new ProductExistRule(model.Id, _productRepository));
+
             //add includes
-            var productToUpdate = await _productRepository.GetByIdAsync(model.Id);
-            if (productToUpdate == null)
-                return new ProductModel();
+
+            Expression<Func<Product, object>> sellerInclude = p => p.Seller;
+
+            var productToUpdate = await _productRepository.GetByIdAsync(model.Id, new List<Expression<Func<Product, object>>> { sellerInclude }, cancellationToken);
+            
 
             productToUpdate.Price = model.Price;
             productToUpdate.Name = model.Name;
