@@ -1,4 +1,5 @@
 ﻿using FlapKap.Core.Enums;
+using FluentValidation;
 
 namespace FlapKap.API.APIRequests.User
 {
@@ -11,4 +12,14 @@ namespace FlapKap.API.APIRequests.User
         public UserRole RoleId { get; set; }
         
     }
+
+    public class UserAPIRequestValidator:AbstractValidator<UserAPIRequest>
+    {
+        public UserAPIRequestValidator()
+        {
+            RuleFor(x => x.UserName).NotNull().NotEmpty();
+            RuleFor(x => x.Password).NotNull().NotEmpty();
+        }
+    }
+
 }

@@ -1,3 +1,4 @@
+using FlapKap.API.APIRequests.User;
 using FlapKap.API.Configuration;
 using FlapKap.API.Constants;
 using FlapKap.API.Middleware;
@@ -6,6 +7,8 @@ using FlapKap.Core;
 using FlapKap.Core.Enums;
 using FlapKap.Infrastructure;
 using FlapKap.Infrastructure.IoC;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
@@ -49,6 +52,14 @@ namespace FlapKap.API
                     //ValidateLifetime=true
                 };
             });
+
+            builder.Services.AddFluentValidationAutoValidation(config =>
+            {
+                config.DisableDataAnnotationsValidation = true;
+            });
+
+            builder.Services.AddValidatorsFromAssembly(typeof(DepositAPIRequestValidator).Assembly);
+
 
             builder.Services.AddAuthorization(option =>
             {
