@@ -12,7 +12,6 @@ namespace FlapKap.Application.Models
         public string Name { get; set; }
         public double Price { get; set; }
         public int AvailableAmount { get; set; }
-        public string SellerName { get; set; }
         public int SellerId { get; set; }
     }
 }

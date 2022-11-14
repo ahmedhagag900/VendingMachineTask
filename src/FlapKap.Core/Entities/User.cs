@@ -10,7 +10,8 @@ namespace FlapKap.Core.Entities
     {
         public User()
         {
-            Products=new HashSet<Product>();
+            SellerProducts=new HashSet<Product>();
+            BuyerProducts = new HashSet<Product>();
         }
         public int Id { get; set; }
         public string UserName { get; set; }
@@ -20,6 +21,7 @@ namespace FlapKap.Core.Entities
         public double Deposit { get; set; }
 
         public virtual Role Role { get; set; }
-        public virtual ICollection<Product> Products { get; set; }
+        public virtual ICollection<Product> SellerProducts { get; set; }
+        public virtual ICollection<Product> BuyerProducts { get; set; }
     }
 }

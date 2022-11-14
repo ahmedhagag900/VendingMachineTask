@@ -62,7 +62,7 @@ namespace FlapKap.API
                     builder.RequireAuthenticatedUser();
                     builder.RequireClaim(ClaimTypes.Role, ((int)UserRole.Buyer).ToString());
                 });
-                option.AddPolicy(Policy.Buyer, builder =>
+                option.AddPolicy(Policy.SA, builder =>
                 {
                     builder.RequireAuthenticatedUser();
                     builder.RequireClaim(ClaimTypes.Role, ((int)UserRole.SA).ToString());
@@ -78,7 +78,9 @@ namespace FlapKap.API
             using (var scope = app.Services.CreateScope())
             {
                 var service = scope.ServiceProvider.GetRequiredService<ContextSeed>();
-                service.SeedRoleAsync().Wait();
+                service.SeedRolesAsync().Wait();
+                service.SeedUsersAsync().Wait();
+                service.SeedProductsAsync().Wait();
             }
 
             app.UseMiddleware<ExceptionMiddleware>();

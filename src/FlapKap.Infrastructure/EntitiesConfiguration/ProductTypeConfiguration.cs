@@ -11,9 +11,11 @@ namespace FlapKap.Infrastructure.EntitiesConfiguration
             builder.HasKey(p => p.Id);
             
             builder.HasOne(p => p.Seller)
-                .WithMany(p=>p.Products)
+                .WithMany(p=>p.SellerProducts)
                 .HasForeignKey(p => p.SellerId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasMany(p => p.Buyers).WithMany(p => p.BuyerProducts);
 
             builder.HasIndex(p => p.SellerId).IsClustered(false);
 

@@ -47,8 +47,7 @@ namespace FlapKap.Application.Services
                 AvailableAmount = added.AvailableAmount,
                 Name = added.Name,
                 Price = added.Price,
-                SellerId = _executionContext.UserId,
-                SellerName = added.Seller.Name
+                SellerId = _executionContext.UserId
             };
 
         }
@@ -59,10 +58,9 @@ namespace FlapKap.Application.Services
             await CheckRule(new ProductIsInStockRule(productId,quantity, _productRepository));
             await CheckRule(new CanBuyProductRule(productId, quantity, _executionContext.UserId, _productRepository, _userRepository));
 
-            Expression<Func<Product, object>> sellerInclude = p => p.Seller;
 
             var user = await _userRepository.GetByIdAsync(_executionContext.UserId);
-            var product = (await _productRepository.GetAsync(p=>p.Id==productId, new List<Expression<Func<Product, object>>> { sellerInclude })).SingleOrDefault();
+            var product = await _productRepository.GetByIdAsync(productId);
             
             var totalPrice = product.Price * quantity;
 
@@ -83,7 +81,6 @@ namespace FlapKap.Application.Services
                     Name=product.Name,
                     Price = product.Price,
                     SellerId = product.SellerId,
-                    SellerName=product.Seller.Name
                 },
                 Change=new ChangeCoinModel
                 {
@@ -97,11 +94,12 @@ namespace FlapKap.Application.Services
         {
             Array.Sort(coins);
             Dictionary<int, long> ans = new Dictionary<int, long>();
-            for (int i = coins.Length;i>=0 ;--i)
+            for (int i = coins.Length-1;i>=0 ;--i)
             {
-                if(amount>coins[i])
+                if(amount>=coins[i])
                 {
                     long val=((long)amount/coins[i]);
+                    amount -= (val * coins[i]);
                     ans.Add(coins[i], val);
                 }
             }
@@ -124,8 +122,7 @@ namespace FlapKap.Application.Services
                 AvailableAmount = p.AvailableAmount,
                 Name = p.Name,
                 Price = p.Price,
-                SellerId = p.SellerId,
-                SellerName = p.Seller.Name
+                SellerId = p.SellerId
             });
         }
 
@@ -142,8 +139,7 @@ namespace FlapKap.Application.Services
                 AvailableAmount = product.AvailableAmount,
                 Name = product.Name,
                 Price = product.Price,
-                SellerId = product.SellerId,
-                SellerName = product.Seller.Name
+                SellerId = product.SellerId
             };
 
         }
@@ -173,8 +169,7 @@ namespace FlapKap.Application.Services
                 AvailableAmount = updated.AvailableAmount,
                 Name = updated.Name,
                 Price = updated.Price,
-                SellerId = updated.SellerId,
-                SellerName = updated.Seller.Name
+                SellerId = updated.SellerId
             };
 
         }
