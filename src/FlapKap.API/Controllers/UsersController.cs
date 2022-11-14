@@ -49,9 +49,15 @@ namespace FlapKap.API.Controllers
         [ProducesResponseType(typeof(UserModel), (int)HttpStatusCode.Created)]
         [ProducesResponseType(typeof(MessageModel), (int)HttpStatusCode.BadRequest)]
         [AllowAnonymous]
-        public async Task<IActionResult> CreateUser(UserModel user,CancellationToken cancellationToken)
+        public async Task<IActionResult> CreateUser(UserAPIRequest user,CancellationToken cancellationToken)
         {
-            var result = await _mediator.Send(new CreateUserCommand(user),cancellationToken);
+            var result = await _mediator.Send(new CreateUserCommand(new UserModel
+            {
+                UserName = user.UserName,
+                Name = user.Name,
+                Password = user.Password,
+                RoleId = user.RoleId
+            }),cancellationToken);
 
             
             var serverUrl = _httpContextAccessor.HttpContext.Request.GetDisplayUrl();
@@ -64,9 +70,16 @@ namespace FlapKap.API.Controllers
         [Route("[controller]")]
         [ProducesResponseType(typeof(UserModel), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(MessageModel), (int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> UpdateUser(UserModel user, CancellationToken cancellationToken)
+        public async Task<IActionResult> UpdateUser(UserAPIRequest user, CancellationToken cancellationToken)
         {
-            var result = await _mediator.Send(new UpdateUserCommand(user), cancellationToken);
+            var result = await _mediator.Send(new UpdateUserCommand(new UserModel
+            {
+                Id = user.UserId,
+                RoleId = user.RoleId,
+                Password = user.Password,
+                Name = user.Name,
+                UserName = user.UserName
+            }), cancellationToken);
             return Ok(result);
         }
 
@@ -84,6 +97,7 @@ namespace FlapKap.API.Controllers
         [Route("[controller]/[action]")]
         [ProducesResponseType(typeof(LoginModel),(int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(MessageModel), (int)HttpStatusCode.BadRequest)]
+        [AllowAnonymous]
         public async Task<IActionResult> Login([FromBody]LoginAPIRequest request,CancellationToken cancellationToken)
         {
             var result = await _mediator.Send(new LoginCommand(request.UserName, request.Password),cancellationToken);

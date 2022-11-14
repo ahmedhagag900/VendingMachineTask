@@ -20,7 +20,7 @@ namespace FlapKap.Application.BusinessRules.UserRules
         }
         public ApplicationCode ErrorCode => ApplicationCode.UserNameExists;
 
-        public string Message => $"This email{_userName} already exists";
+        public string Message => $"This username : '{_userName}' already exists";
 
         public async Task<bool> IsBroken()
         {

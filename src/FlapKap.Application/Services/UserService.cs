@@ -1,4 +1,5 @@
 ﻿using FlapKap.Application.BusinessRules.UserRules;
+using FlapKap.Application.Exceptions;
 using FlapKap.Application.Interfaces;
 using FlapKap.Application.Models;
 using FlapKap.Core;
@@ -18,12 +19,14 @@ namespace FlapKap.Application.Services
     internal class UserService : ServiceBase, IUserService
     {
         private readonly IUserRepository _userRepository;
+        private readonly IRoleRepository _roleRepository;
         private readonly ICryprographyService _cryprographyService;
         private readonly IUnitOfWork _unitOfWork;
         private readonly VendingMachineSettings _settings;
         private readonly IExecutionContext _executionContext;
         public UserService(IUserRepository userRepository,
             ICryprographyService cryprographyService,
+            IRoleRepository roleRepository,
             IUnitOfWork unitOfWork,
             IExecutionContext executionContext,
             VendingMachineSettings settings)
@@ -31,12 +34,14 @@ namespace FlapKap.Application.Services
             _cryprographyService = cryprographyService ?? throw new ArgumentNullException(nameof(cryprographyService));
             _userRepository=userRepository?? throw new ArgumentNullException(nameof(userRepository));  
             _unitOfWork=unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
-            _settings = settings ?? throw new ArgumentNullException(nameof(settings));  
+            _settings = settings ?? throw new ArgumentNullException(nameof(settings));
+            _roleRepository = roleRepository ?? throw new ArgumentNullException(nameof(roleRepository));
             _executionContext=executionContext??throw new ArgumentNullException(nameof(executionContext));
         }
         public async Task<UserModel> Add(UserModel model,CancellationToken cancellationToken)
         {
             await CheckRule(new UserNameShouldBeUniqueRule(model.UserName, _userRepository));
+
 
             var user = new User
             {
@@ -46,8 +51,13 @@ namespace FlapKap.Application.Services
                 RoleId = (int)model.RoleId
             };
 
+
+
             var added=await _userRepository.AddAsync(user,cancellationToken);
+
+
             await _unitOfWork.CompleteAsync(cancellationToken);
+            
             return new UserModel
             {
                 Id = added.Id,
@@ -102,6 +112,8 @@ namespace FlapKap.Application.Services
             await CheckRule(new UserExsitsRule(userName, _userRepository));
 
             Expression<Func<User, object>> roleInclude = usr => usr.Role;
+
+
             var user = (await _userRepository
                 .GetAsync(usr => usr.UserName == userName,
                 new List<Expression<Func<User, object>>> { roleInclude}))
@@ -115,8 +127,10 @@ namespace FlapKap.Application.Services
                 {
                     AccessToken = GenerateAccessToken(user),
                 };
+            }else
+            {
+                throw new BusinessRuleException("Invalid login attemp", ApplicationCode.InvalidLogin);
             }
-            return new LoginModel();
         }
         public async Task<UserModel> Update(UserModel model,CancellationToken cancellationToken)
         {

@@ -13,7 +13,7 @@ namespace FlapKap.Infrastructure.Commands.User
     {
         public LoginCommand(string userName,string password)
         {
-            userName = userName;
+            UserName = userName;
             Password = password;
         }
         public string UserName { get; }

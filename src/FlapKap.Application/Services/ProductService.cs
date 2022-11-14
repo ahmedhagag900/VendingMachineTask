@@ -62,7 +62,7 @@ namespace FlapKap.Application.Services
             Expression<Func<Product, object>> sellerInclude = p => p.Seller;
 
             var user = await _userRepository.GetByIdAsync(_executionContext.UserId);
-            var product = await _productRepository.GetByIdAsync(productId, new List<Expression<Func<Product, object>>> { sellerInclude });
+            var product = (await _productRepository.GetAsync(p=>p.Id==productId, new List<Expression<Func<Product, object>>> { sellerInclude })).SingleOrDefault();
             
             var totalPrice = product.Price * quantity;
 
@@ -157,7 +157,7 @@ namespace FlapKap.Application.Services
 
             Expression<Func<Product, object>> sellerInclude = p => p.Seller;
 
-            var productToUpdate = await _productRepository.GetByIdAsync(model.Id, new List<Expression<Func<Product, object>>> { sellerInclude }, cancellationToken);
+            var productToUpdate = (await _productRepository.GetAsync(p => p.Id == model.Id, new List<Expression<Func<Product, object>>> { sellerInclude }, cancellationToken)).SingleOrDefault();
             
 
             productToUpdate.Price = model.Price;

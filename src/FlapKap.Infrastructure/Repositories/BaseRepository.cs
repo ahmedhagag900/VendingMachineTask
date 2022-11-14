@@ -1,5 +1,6 @@
 ﻿using FlapKap.Core.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 using System.Linq.Expressions;
 
 namespace FlapKap.Infrastructure.Repositories
@@ -29,19 +30,14 @@ namespace FlapKap.Infrastructure.Repositories
             return await query.ToListAsync(cancellationToken);
         }
 
-        public async Task<T?> GetByIdAsync(int id, List<Expression<Func<T, object>>>? includes = null, CancellationToken cancellationToken = default)
+        public async Task<T?> GetByIdAsync(int id, CancellationToken cancellationToken = default)
         {
-            var query = _entities.AsQueryable();
-            if (includes != null)
-            {
-                foreach (var include in includes)
-                    query = query.Include(include);
-            }
-            return await query.SingleOrDefaultAsync(cancellationToken);
+            return await _entities.FindAsync(id, cancellationToken);
         }
 
         public async Task<T> AddAsync(T entity,CancellationToken cancellationToken)
         {
+
             await _entities.AddAsync(entity,cancellationToken);
             return entity;
         }

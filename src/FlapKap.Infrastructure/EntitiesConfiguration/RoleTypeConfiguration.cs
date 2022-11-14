@@ -11,12 +11,15 @@ namespace FlapKap.Infrastructure.EntitiesConfiguration
         {
             builder.HasKey(x => x.Id);
 
-            builder.HasData(new[]
-            {
-                new Role{Id=(int)UserRole.Buyer,Name="buyer"},
-                new Role{Id=(int)UserRole.Seller,Name="seller"},
-                new Role{Id=(int)UserRole.SA,Name="Supper Admin"}
-            });
+            builder.HasMany(r => r.Users)
+                .WithOne(r => r.Role);
+
+            //builder.HasData(new[]
+            //{
+            //    new Role{Id=(int)UserRole.Buyer,Name="buyer"},
+            //    new Role{Id=(int)UserRole.Seller,Name="seller"},
+            //    new Role{Id=(int)UserRole.SA,Name="Supper Admin"}
+            //});
 
         }
     }

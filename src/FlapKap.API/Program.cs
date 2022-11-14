@@ -1,8 +1,10 @@
 using FlapKap.API.Configuration;
 using FlapKap.API.Constants;
+using FlapKap.API.Middleware;
 using FlapKap.Application.IoC;
 using FlapKap.Core;
 using FlapKap.Core.Enums;
+using FlapKap.Infrastructure;
 using FlapKap.Infrastructure.IoC;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -68,14 +70,25 @@ namespace FlapKap.API
             });
 
 
+            
+
             var app = builder.Build();
+
+            //seed data
+            using (var scope = app.Services.CreateScope())
+            {
+                var service = scope.ServiceProvider.GetRequiredService<ContextSeed>();
+                service.SeedRoleAsync().Wait();
+            }
+
+            app.UseMiddleware<ExceptionMiddleware>();
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
-                app.UseDeveloperExceptionPage();
+               // app.UseDeveloperExceptionPage();
             }
             app.UseAuthentication();
 

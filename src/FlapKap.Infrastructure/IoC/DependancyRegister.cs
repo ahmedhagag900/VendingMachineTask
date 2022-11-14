@@ -44,6 +44,7 @@ namespace FlapKap.Infrastructure.IoC
 
 
             services.AddSingleton(typeof(Constants));
+            services.AddTransient(typeof(ContextSeed));
 
             services.AddScoped(typeof(IBaseRepository<>),typeof(BaseRepository<>));
             services.AddScoped<IExecutionContext, ExecutionContext>();

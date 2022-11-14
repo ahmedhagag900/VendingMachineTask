@@ -1,4 +1,5 @@
-﻿using FlapKap.API.Constants;
+﻿using FlapKap.API.APIRequests.Product;
+using FlapKap.API.Constants;
 using FlapKap.Application.Models;
 using FlapKap.Infrastructure.Commands.Product;
 using MediatR;
@@ -49,9 +50,14 @@ namespace FlapKap.API.Controllers
         [HttpPost]
         [ProducesResponseType(typeof(ProductModel), (int)HttpStatusCode.Created)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> CreateProduct(ProductModel product, CancellationToken cancellationToken)
+        public async Task<IActionResult> CreateProduct(ProductAPIRequest product, CancellationToken cancellationToken)
         {
-            var result = await _mediator.Send(new CreateProductCommand(product), cancellationToken);
+            var result = await _mediator.Send(new CreateProductCommand(new ProductModel
+            {
+                Name = product.Name,
+                Price = product.Price,
+                AvailableAmount=product.AvailableAmount
+            }), cancellationToken);
 
 
             var serverUrl = _httpContextAccessor.HttpContext.Request.GetDisplayUrl();
@@ -63,9 +69,15 @@ namespace FlapKap.API.Controllers
         [HttpPut]
         [ProducesResponseType(typeof(ProductModel), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> UpdateProduct(ProductModel product, CancellationToken cancellationToken)
+        public async Task<IActionResult> UpdateProduct(ProductAPIRequest product, CancellationToken cancellationToken)
         {
-            var result = await _mediator.Send(new UpdateProductCommand(product), cancellationToken);
+            var result = await _mediator.Send(new UpdateProductCommand(new ProductModel
+            {
+                Id=product.ProductId,
+                AvailableAmount = product.AvailableAmount,
+                Name=product.Name,
+                Price=product.Price,
+            }), cancellationToken);
             return Ok(result);
         }
 

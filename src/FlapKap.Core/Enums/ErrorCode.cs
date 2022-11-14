@@ -14,6 +14,7 @@ namespace FlapKap.Core.Enums
         ProductDoseNotExisits=4,
         ProductOutOfStock=5,
         RemainingBalancIsNotEnough=6,
+        InvalidLogin=7,
 
         ServerError=500
     }
