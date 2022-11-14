@@ -1,4 +1,5 @@
 ﻿using FlapKap.API.APIRequests.User;
+using FlapKap.API.Constants;
 using FlapKap.Application.Models;
 using FlapKap.Infrastructure.Commands.User;
 using MediatR;
@@ -10,7 +11,7 @@ using System.Net;
 namespace FlapKap.API.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/")]
     [Authorize]
     public class UsersController:ControllerBase
     {
@@ -23,8 +24,9 @@ namespace FlapKap.API.Controllers
         }
 
         [HttpGet]
+        [Route("[controller]")]
         [ProducesResponseType(typeof(IEnumerable<UserModel>), (int)HttpStatusCode.OK)]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(MessageModel), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetAllUsers(CancellationToken cancellationToken)
         {
             var result = await _mediator.Send(new GetAllUsersRequest(),cancellationToken);
@@ -33,9 +35,9 @@ namespace FlapKap.API.Controllers
 
 
         [HttpGet]
-        [Route("{userId}")]
+        [Route("[controller]/{userId}")]
         [ProducesResponseType(typeof(UserModel), (int)HttpStatusCode.OK)]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(MessageModel), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetUserById([FromRoute] int userId, CancellationToken cancellationToken)
         {
             var result =await _mediator.Send(new GetUserByIdRequest(userId), cancellationToken);
@@ -43,8 +45,9 @@ namespace FlapKap.API.Controllers
         }
 
         [HttpPost]
+        [Route("[controller]")]
         [ProducesResponseType(typeof(UserModel), (int)HttpStatusCode.Created)]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(MessageModel), (int)HttpStatusCode.BadRequest)]
         [AllowAnonymous]
         public async Task<IActionResult> CreateUser(UserModel user,CancellationToken cancellationToken)
         {
@@ -58,8 +61,9 @@ namespace FlapKap.API.Controllers
         }
 
         [HttpPut]
+        [Route("[controller]")]
         [ProducesResponseType(typeof(UserModel), (int)HttpStatusCode.OK)]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(MessageModel), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> UpdateUser(UserModel user, CancellationToken cancellationToken)
         {
             var result = await _mediator.Send(new UpdateUserCommand(user), cancellationToken);
@@ -67,9 +71,9 @@ namespace FlapKap.API.Controllers
         }
 
         [HttpDelete]
-        [Route("{userId}")]
+        [Route("[controller]/{userId}")]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(MessageModel), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> DeleteUser([FromRoute]int userId, CancellationToken cancellationToken)
         {
             await _mediator.Send(new DeleteUserCommand(userId), cancellationToken);
@@ -77,14 +81,17 @@ namespace FlapKap.API.Controllers
         }
 
         [HttpPost]
-        [Route("[action]")]
+        [Route("[controller]/[action]")]
         [ProducesResponseType(typeof(LoginModel),(int)HttpStatusCode.OK)]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(MessageModel), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> Login([FromBody]LoginAPIRequest request,CancellationToken cancellationToken)
         {
             var result = await _mediator.Send(new LoginCommand(request.UserName, request.Password),cancellationToken);
             return Ok(result);
         }
+
+        
+        
 
     }
 }

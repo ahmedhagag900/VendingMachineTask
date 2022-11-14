@@ -21,15 +21,18 @@ namespace FlapKap.Application.Services
         private readonly ICryprographyService _cryprographyService;
         private readonly IUnitOfWork _unitOfWork;
         private readonly VendingMachineSettings _settings;
+        private readonly IExecutionContext _executionContext;
         public UserService(IUserRepository userRepository,
             ICryprographyService cryprographyService,
             IUnitOfWork unitOfWork,
+            IExecutionContext executionContext,
             VendingMachineSettings settings)
         {
             _cryprographyService = cryprographyService ?? throw new ArgumentNullException(nameof(cryprographyService));
             _userRepository=userRepository?? throw new ArgumentNullException(nameof(userRepository));  
             _unitOfWork=unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
-            _settings = settings ?? throw new ArgumentNullException(nameof(settings));    
+            _settings = settings ?? throw new ArgumentNullException(nameof(settings));  
+            _executionContext=executionContext??throw new ArgumentNullException(nameof(executionContext));
         }
         public async Task<UserModel> Add(UserModel model,CancellationToken cancellationToken)
         {
@@ -54,6 +57,8 @@ namespace FlapKap.Application.Services
                 RoleId=(UserRole)added.RoleId
             };
         }
+
+        
 
         public async Task Delete(int id)
         {
@@ -113,7 +118,6 @@ namespace FlapKap.Application.Services
             }
             return new LoginModel();
         }
-
         public async Task<UserModel> Update(UserModel model,CancellationToken cancellationToken)
         {
             await CheckRule(new UserExsitsRule(model.Id, _userRepository));
@@ -140,6 +144,32 @@ namespace FlapKap.Application.Services
             };
         }
 
+        public async Task<DepositModel> AddDeposit(double amount)
+        {
+            var user = await _userRepository.GetByIdAsync(_executionContext.UserId);
+
+            user.Deposit += amount;
+
+            _userRepository.Update(user);
+
+            return new DepositModel
+            {
+                Amount = user.Deposit
+            };
+        }
+        public async Task<DepositModel> ResetDeposit()
+        {
+            var user = await _userRepository.GetByIdAsync(_executionContext.UserId);
+
+            user.Deposit = 0;
+
+            _userRepository.Update(user);
+
+            return new DepositModel
+            {
+                Amount = user.Deposit
+            };
+        }
         private string GenerateAccessToken(User user)
         {
             var claims = new[]
