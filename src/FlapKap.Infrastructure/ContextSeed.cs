@@ -13,6 +13,7 @@ namespace FlapKap.Infrastructure
         private readonly IProductRepository _productRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly VendingMachieneContext _context;
+        private static int _migrateCount = 0;
         public ContextSeed(IRoleRepository roleRepository,
             IUserRepository userRepository,
             IUnitOfWork unitOfWork,
@@ -30,16 +31,19 @@ namespace FlapKap.Infrastructure
         {
             if(!inMemory)
             {
-                _context.Database.EnsureCreated();
                 await _context.Database.MigrateAsync();
             }
-            await SeedRolesAsync();
             await SeedUsersAsync();
             await SeedProductsAsync();
         }
 
-        private async Task SeedRolesAsync()
+        public async Task SeedRolesAsync(bool inMemory=true)
         {
+            if (!inMemory)
+            {
+                await _context.Database.MigrateAsync();
+            }
+
             int cnt = await _roleRepository.Query().CountAsync();
             if (cnt > 0)
                 return;

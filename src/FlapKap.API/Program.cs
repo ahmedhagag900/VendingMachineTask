@@ -21,7 +21,7 @@ namespace FlapKap.API
             builder.Services
                 .RegisterBaseServices(settings)
                 .RegisterApplicationServices()
-                .RegisterInfraStructureServices(inMemotyDb: true, settings.ConnectionString);
+                .RegisterInfraStructureServices(inMemotyDb: false, settings.ConnectionString);
 
 
             builder.Services.Configure<VendingMachineSettings>(builder.Configuration);
@@ -32,7 +32,8 @@ namespace FlapKap.API
             using (var scope = app.Services.CreateScope())
             {
                 var service = scope.ServiceProvider.GetRequiredService<ContextSeed>();
-                service.SeedDataAsync(inMemory: true).Wait();
+                service.SeedRolesAsync(inMemory: false).Wait();
+                service.SeedDataAsync(inMemory: false).Wait();
             }
 
             app.UseMiddleware<ExceptionMiddleware>();
