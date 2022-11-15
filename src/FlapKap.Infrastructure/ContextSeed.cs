@@ -2,11 +2,7 @@
 using FlapKap.Core.Enums;
 using FlapKap.Core.Repositories;
 using FlapKap.Core.UnitOfWork;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace FlapKap.Infrastructure
 {
@@ -16,19 +12,38 @@ namespace FlapKap.Infrastructure
         private readonly IUserRepository _userRepository;
         private readonly IProductRepository _productRepository;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly VendingMachieneContext _context;
         public ContextSeed(IRoleRepository roleRepository,
             IUserRepository userRepository,
             IUnitOfWork unitOfWork,
-            IProductRepository productRepository)
+            IProductRepository productRepository,
+            VendingMachieneContext context)
         {
             _roleRepository = roleRepository;
             _unitOfWork = unitOfWork;
             _userRepository = userRepository;
             _productRepository = productRepository;
+            _context = context;
         }
 
-        public async Task SeedRolesAsync()
+        public async Task SeedDataAsync(bool inMemory = true)
         {
+            if(inMemory)
+            {
+                _context.Database.EnsureCreated();
+                await _context.Database.MigrateAsync();
+            }
+            await SeedRolesAsync();
+            await SeedUsersAsync();
+            await SeedProductsAsync();
+        }
+
+        private async Task SeedRolesAsync()
+        {
+            int cnt = await _roleRepository.Query().AsNoTracking().CountAsync();
+            if (cnt > 0)
+                return;
+
             CancellationToken cancellation = new CancellationToken();
             await _roleRepository.AddAsync(new Core.Entities.Role
             {
@@ -49,8 +64,12 @@ namespace FlapKap.Infrastructure
             await _unitOfWork.CompleteAsync(cancellation);
         }
 
-        public async Task SeedUsersAsync()
+        private async Task SeedUsersAsync()
         {
+            int cnt = await _userRepository.Query().AsNoTracking().CountAsync();
+            if (cnt > 0)
+                return;
+
             CancellationToken cancellation = new CancellationToken();
             await _userRepository.AddAsync(new User
             {
@@ -71,8 +90,12 @@ namespace FlapKap.Infrastructure
             await _unitOfWork.CompleteAsync(cancellation);
         }
 
-        public async Task SeedProductsAsync()
+        private async Task SeedProductsAsync()
         {
+            int cnt = await _productRepository.Query().AsNoTracking().CountAsync();
+            if (cnt > 0)
+                return;
+
             CancellationToken cancellation = new CancellationToken();
             await _productRepository.AddAsync(new Product
             {

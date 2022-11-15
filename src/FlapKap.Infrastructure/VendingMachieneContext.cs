@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace FlapKap.Infrastructure
 {
-    internal class VendingMachieneContext:DbContext
+    public class VendingMachieneContext:DbContext
     {
 
         public VendingMachieneContext(DbContextOptions<VendingMachieneContext> options) : base(options)

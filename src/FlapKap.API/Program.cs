@@ -1,18 +1,9 @@
-using FlapKap.API.APIRequests.User;
 using FlapKap.API.Configuration;
-using FlapKap.API.Constants;
 using FlapKap.API.Middleware;
 using FlapKap.Application.IoC;
 using FlapKap.Core;
-using FlapKap.Core.Enums;
 using FlapKap.Infrastructure;
 using FlapKap.Infrastructure.IoC;
-using FluentValidation;
-using FluentValidation.AspNetCore;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using System.Security.Claims;
-using System.Text;
 
 namespace FlapKap.API
 {
@@ -24,62 +15,18 @@ namespace FlapKap.API
 
             // Add services to the container.
 
-            builder = builder.ConfigureBaseServices();
-
 
             var settings = builder.Configuration.Get<VendingMachineSettings>();
 
             builder.Services
+                .RegisterBaseServices(settings)
                 .RegisterApplicationServices()
-                .RegisterInfraStructureServices(false, settings.ConnectionString);
+                .RegisterInfraStructureServices(inMemotyDb: false, settings.ConnectionString);
 
-            builder.Services.AddHttpContextAccessor();
 
             builder.Services.Configure<VendingMachineSettings>(builder.Configuration);
 
-            builder.Services.AddAuthentication(opt =>
-            {
-                opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(opt =>
-            {
-                opt.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidIssuer = settings.JWTOptions.Issuer,
-                    ValidAudience = settings.JWTOptions.Audience,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(settings.JWTOptions.SecretKey)),
-                    ValidateAudience = true,
-                    ValidateIssuer = true,
-                    //ValidateLifetime=true
-                };
-            });
-
-            builder.Services.AddFluentValidationAutoValidation(config =>
-            {
-                config.DisableDataAnnotationsValidation = true;
-            });
-
-            builder.Services.AddValidatorsFromAssembly(typeof(DepositAPIRequestValidator).Assembly);
-
-
-            builder.Services.AddAuthorization(option =>
-            {
-                option.AddPolicy(Policy.Seller, builder =>
-                {
-                    builder.RequireAuthenticatedUser();
-                    builder.RequireClaim(ClaimTypes.Role, ((int)UserRole.Seller).ToString());
-                });
-                option.AddPolicy(Policy.Buyer, builder =>
-                {
-                    builder.RequireAuthenticatedUser();
-                    builder.RequireClaim(ClaimTypes.Role, ((int)UserRole.Buyer).ToString());
-                });
-                option.AddPolicy(Policy.SA, builder =>
-                {
-                    builder.RequireAuthenticatedUser();
-                    builder.RequireClaim(ClaimTypes.Role, ((int)UserRole.SA).ToString());
-                });
-            });
+            
 
 
             
@@ -90,9 +37,7 @@ namespace FlapKap.API
             using (var scope = app.Services.CreateScope())
             {
                 var service = scope.ServiceProvider.GetRequiredService<ContextSeed>();
-                service.SeedRolesAsync().Wait();
-                service.SeedUsersAsync().Wait();
-                service.SeedProductsAsync().Wait();
+                service.SeedDataAsync(inMemory: false).Wait();
             }
 
             app.UseMiddleware<ExceptionMiddleware>();
