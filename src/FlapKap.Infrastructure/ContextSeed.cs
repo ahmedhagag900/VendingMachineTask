@@ -28,7 +28,7 @@ namespace FlapKap.Infrastructure
 
         public async Task SeedDataAsync(bool inMemory = true)
         {
-            if(inMemory)
+            if(!inMemory)
             {
                 _context.Database.EnsureCreated();
                 await _context.Database.MigrateAsync();
@@ -40,7 +40,7 @@ namespace FlapKap.Infrastructure
 
         private async Task SeedRolesAsync()
         {
-            int cnt = await _roleRepository.Query().AsNoTracking().CountAsync();
+            int cnt = await _roleRepository.Query().CountAsync();
             if (cnt > 0)
                 return;
 
@@ -66,7 +66,7 @@ namespace FlapKap.Infrastructure
 
         private async Task SeedUsersAsync()
         {
-            int cnt = await _userRepository.Query().AsNoTracking().CountAsync();
+            int cnt = await _userRepository.Query().CountAsync();
             if (cnt > 0)
                 return;
 
@@ -92,7 +92,7 @@ namespace FlapKap.Infrastructure
 
         private async Task SeedProductsAsync()
         {
-            int cnt = await _productRepository.Query().AsNoTracking().CountAsync();
+            int cnt = await _productRepository.Query().CountAsync();
             if (cnt > 0)
                 return;
 

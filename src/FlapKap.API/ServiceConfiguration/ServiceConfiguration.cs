@@ -10,6 +10,8 @@ using System.Security.Claims;
 using System.Text;
 using FlapKap.Infrastructure;
 using FlapKap.Core;
+using Microsoft.AspNetCore.Authorization;
+using FlapKap.API.Auth;
 
 namespace FlapKap.API.Configuration
 {
@@ -59,6 +61,9 @@ namespace FlapKap.API.Configuration
             services.AddValidatorsFromAssembly(typeof(DepositAPIRequestValidator).Assembly);
 
 
+            services.AddScoped<IAuthorizationHandler, UserRoleAutherizationHandler>();
+            //services.AddScoped<IAuthorizationRequirement, UserRoleRequirement>();
+
             //configure authentication schema to be jwt and define how to validate it.
             services.AddAuthentication(opt =>
             {
@@ -84,19 +89,19 @@ namespace FlapKap.API.Configuration
                 option.AddPolicy(Policy.Seller, builder =>
                 {
                     builder.RequireAuthenticatedUser();
-                    builder.RequireClaim(ClaimTypes.Role, ((int)UserRole.Seller).ToString());
+                    builder.Requirements.Add(new UserRoleRequirement((int)UserRole.Seller));
                 });
                 //buyer policy
                 option.AddPolicy(Policy.Buyer, builder =>
                 {
                     builder.RequireAuthenticatedUser();
-                    builder.RequireClaim(ClaimTypes.Role, ((int)UserRole.Buyer).ToString());
+                    builder.Requirements.Add(new UserRoleRequirement((int)UserRole.Buyer));
                 });
                 //super admin policy (not used)
                 option.AddPolicy(Policy.SA, builder =>
                 {
                     builder.RequireAuthenticatedUser();
-                    builder.RequireClaim(ClaimTypes.Role, ((int)UserRole.SA).ToString());
+                    builder.Requirements.Add(new UserRoleRequirement((int)UserRole.SA));
                 });
             });
 
