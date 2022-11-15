@@ -12,7 +12,7 @@ The task is to implement a vending machine operations and expose it with RESTFul
 ## How To Run
  - The application has some seed data to quick start it if you dont need to seed any data comment the seed line in the following snapshot in ```program.cs``` file <br><br>
  ![inmemorySeed](https://user-images.githubusercontent.com/69547439/202011298-dba6dbdd-06d4-4d2a-93e6-c37286d1b700.PNG)
- - Note that the database must have role data seeded in the database to run probably.
+ - Note that the database must have role data seeded in the database to run probably so do not comment the ```SeedRoleAsync``` line.
  - you can run the application using sql server database or in memory database.
  
 ### SQL Server Database
