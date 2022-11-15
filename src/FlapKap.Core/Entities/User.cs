@@ -1,17 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace FlapKap.Core.Entities
+﻿namespace FlapKap.Core.Entities
 {
     public partial class User
     {
         public User()
         {
             SellerProducts=new HashSet<Product>();
-            BuyerProducts = new HashSet<Product>();
         }
         public int Id { get; set; }
         public string UserName { get; set; }
@@ -22,6 +15,5 @@ namespace FlapKap.Core.Entities
 
         public virtual Role Role { get; set; }
         public virtual ICollection<Product> SellerProducts { get; set; }
-        public virtual ICollection<Product> BuyerProducts { get; set; }
     }
 }

@@ -11,6 +11,8 @@ namespace FlapKap.Infrastructure.EntitiesConfiguration
         {
             builder.HasKey(x => x.Id);
 
+            builder.Property(x => x.Id).ValueGeneratedNever();
+
             builder.HasMany(r => r.Users)
                 .WithOne(r => r.Role);
 

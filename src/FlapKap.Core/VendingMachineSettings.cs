@@ -8,6 +8,7 @@ namespace FlapKap.Core
 {
     public class VendingMachineSettings
     {
+        public string ConnectionString { get; set; }
         public JWTOptions JWTOptions { get; set; }
     }
 

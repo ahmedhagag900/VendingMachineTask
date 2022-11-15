@@ -7,6 +7,7 @@ using FlapKap.Core.Entities;
 using FlapKap.Core.Enums;
 using FlapKap.Core.Repositories;
 using FlapKap.Core.UnitOfWork;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
 using System.Linq.Expressions;
@@ -29,12 +30,12 @@ namespace FlapKap.Application.Services
             IRoleRepository roleRepository,
             IUnitOfWork unitOfWork,
             IExecutionContext executionContext,
-            VendingMachineSettings settings)
+            IOptions<VendingMachineSettings> options)
         {
             _cryprographyService = cryprographyService ?? throw new ArgumentNullException(nameof(cryprographyService));
             _userRepository=userRepository?? throw new ArgumentNullException(nameof(userRepository));  
             _unitOfWork=unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
-            _settings = settings ?? throw new ArgumentNullException(nameof(settings));
+            _settings = options.Value ?? throw new ArgumentNullException(nameof(options));
             _roleRepository = roleRepository ?? throw new ArgumentNullException(nameof(roleRepository));
             _executionContext=executionContext??throw new ArgumentNullException(nameof(executionContext));
         }

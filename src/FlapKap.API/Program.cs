@@ -26,15 +26,16 @@ namespace FlapKap.API
 
             builder = builder.ConfigureBaseServices();
 
+
+            var settings = builder.Configuration.Get<VendingMachineSettings>();
+
             builder.Services
-                .RegisterInMemmoryDBContext()
                 .RegisterApplicationServices()
-                .RegisterInfraStructureServices();
+                .RegisterInfraStructureServices(false, settings.ConnectionString);
 
             builder.Services.AddHttpContextAccessor();
 
-            var settings=builder.Configuration.Get<VendingMachineSettings>();
-            builder.Services.AddSingleton(typeof(VendingMachineSettings), settings);
+            builder.Services.Configure<VendingMachineSettings>(builder.Configuration);
 
             builder.Services.AddAuthentication(opt =>
             {

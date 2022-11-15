@@ -13,7 +13,7 @@ namespace FlapKap.Infrastructure.IoC
 {
     public static class DependancyRegister
     {
-        public static IServiceCollection RegisterSqlServerDbContext(this IServiceCollection services,string connectionString)
+        private static IServiceCollection RegisterSqlServerDbContext(this IServiceCollection services,string connectionString)
         {
             services.AddDbContext<VendingMachieneContext>(opt =>
             {
@@ -24,7 +24,7 @@ namespace FlapKap.Infrastructure.IoC
             return services;
         }
 
-        public static IServiceCollection RegisterInfraStructureServices(this IServiceCollection services,bool inMemotyDb=true)
+        public static IServiceCollection RegisterInfraStructureServices(this IServiceCollection services,bool inMemotyDb=true,string connectionString="")
         {
 
             services.AddMediatR(typeof(DependancyRegister).Assembly);
@@ -32,10 +32,12 @@ namespace FlapKap.Infrastructure.IoC
             // if set to ture then regester the in memory data base pipeLine 
             if (inMemotyDb)
             {
+                services.RegisterInMemmoryDBContext();
                 services.AddScoped(typeof(IPipelineBehavior<,>), typeof(MemoryDBPipeLine<,>));
             }
             else //regeister the transaction pipe line 
             {
+                services.RegisterSqlServerDbContext(connectionString);
                 services.AddScoped(typeof(IPipelineBehavior<,>), typeof(TransactionPipeLine<,>));
             }
             services.AddScoped<IUserRepository, UserRepository>();
@@ -59,7 +61,7 @@ namespace FlapKap.Infrastructure.IoC
         /// </summary>
         /// <param name="services"></param>
         /// <returns></returns>
-        public static IServiceCollection RegisterInMemmoryDBContext(this IServiceCollection services)
+        private static IServiceCollection RegisterInMemmoryDBContext(this IServiceCollection services)
         {
             services.AddDbContext<VendingMachieneContext>(opt =>
             {

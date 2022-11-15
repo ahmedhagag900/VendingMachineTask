@@ -16,8 +16,6 @@ namespace FlapKap.Infrastructure.EntitiesConfiguration
 
             builder.HasMany(p => p.SellerProducts).WithOne(p => p.Seller);
 
-            builder.HasMany(p => p.BuyerProducts).WithMany(p => p.Buyers);
-
 
             builder.HasIndex(p => p.UserName).IsUnique();
             builder.HasIndex(p => p.RoleId).IsClustered(false);
