@@ -13,7 +13,6 @@ namespace FlapKap.Infrastructure
         private readonly IProductRepository _productRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly VendingMachieneContext _context;
-        private static int _migrateCount = 0;
         public ContextSeed(IRoleRepository roleRepository,
             IUserRepository userRepository,
             IUnitOfWork unitOfWork,
