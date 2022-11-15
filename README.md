@@ -23,8 +23,8 @@ The task is to implement a vending machine operations and expose it with RESTFul
 
 ### In Memory Database
 - If you do not need to create databse or do not have sql server database you can run the app with in memory database 
-- change the flag in the following snapshots to true in ```program.cs``` file <br> <br>
-![inmemory](https://user-images.githubusercontent.com/69547439/201939565-f422bcef-88b8-4202-af77-67913a0420c5.PNG)
+- change the flags in the following snapshots to true in ```program.cs``` file <br> <br>
+![inmemory2](https://user-images.githubusercontent.com/69547439/202012706-eb68f66b-f062-48e3-a63d-60e38f99533c.PNG)
 ![inmemory2](https://user-images.githubusercontent.com/69547439/201939589-576e32ba-5cdc-458b-912d-8c89805cc672.PNG)
 
 
