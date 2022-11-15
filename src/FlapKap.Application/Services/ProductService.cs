@@ -16,13 +16,16 @@ namespace FlapKap.Application.Services
         private readonly IUserRepository _userRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IExecutionContext _executionContext;
+        private readonly IBaseRepository<BuyHistory> _buyHistoryRepository;
         private readonly Constants _constants;
         public ProductService(IProductRepository productRepository,
             IUnitOfWork unitOfWork,
             IUserRepository userRepository,
             IExecutionContext executionContext,
+            IBaseRepository<BuyHistory> buyHistoryRepository,
             Constants constants)
         {
+            _buyHistoryRepository = buyHistoryRepository??throw new ArgumentNullException(nameof(buyHistoryRepository));
             _constants=constants?? throw new ArgumentNullException(nameof(constants));
             _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
             _productRepository = productRepository ?? throw new ArgumentNullException(nameof(productRepository));
@@ -65,8 +68,20 @@ namespace FlapKap.Application.Services
             var totalPrice = product.Price * quantity;
 
             product.AvailableAmount -= quantity;
-            user.Deposit -= totalPrice;
+            var changeToCalculate=user.Deposit-totalPrice;
+            user.Deposit = 0;
 
+            var history = new BuyHistory
+            {
+                ProductId = product.Id,
+                UserId = user.Id,
+                Name = product.Name,
+                Quantity = quantity,
+                BuyDate = DateTime.Now,
+                TotalCost = totalPrice
+            };
+            
+            await _buyHistoryRepository.AddAsync(history, new CancellationToken());
             _userRepository.Update(user);
             _productRepository.Update(product);
 
@@ -84,7 +99,7 @@ namespace FlapKap.Application.Services
                 },
                 Change=new ChangeCoinModel
                 {
-                    Coins=CalculateChange(user.Deposit,_constants.ChangeCoins)
+                    Coins=CalculateChange(changeToCalculate,_constants.ChangeCoins)
                 }
             };
 
