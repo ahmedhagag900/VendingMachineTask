@@ -9,6 +9,21 @@ The task is to implement a vending machine operations and expose it with RESTFul
 
 ![onion](https://miro.medium.com/max/462/1*0Pg6_UsaKiiEqUV3kf2HXg.png)
 
+
+## Authentication & Authorizations
+- Used JWT scheme to authenticate users
+- Used policy builder to build role check policy 
+
+## Validations
+- Used fluent validation to validate api requests for basic validations
+- Used business rule validation to validate on business validation like (unique username, user exists ,etc..)
+
+## Technologies
+- C#
+- NET 6
+- EF 7
+- SQL Server
+
 ## How To Run
  - The application has some seed data to quick start it if you dont need to seed any data comment the seed line in the following snapshot in ```program.cs``` file <br><br>
  ![inmemorySeed](https://user-images.githubusercontent.com/69547439/202011298-dba6dbdd-06d4-4d2a-93e6-c37286d1b700.PNG)
@@ -27,6 +42,9 @@ The task is to implement a vending machine operations and expose it with RESTFul
 ![inmemory2](https://user-images.githubusercontent.com/69547439/202012706-eb68f66b-f062-48e3-a63d-60e38f99533c.PNG)
 ![inmemory2](https://user-images.githubusercontent.com/69547439/201939589-576e32ba-5cdc-458b-912d-8c89805cc672.PNG)
 
+
+## Auther
+[Ahmed Hagag](https://github.com/ahmedhagag900)
 
 
 
