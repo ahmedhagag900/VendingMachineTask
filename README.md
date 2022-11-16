@@ -42,6 +42,8 @@ The task is to implement a vending machine operations and expose it with RESTFul
 ![inmemory2](https://user-images.githubusercontent.com/69547439/202012706-eb68f66b-f062-48e3-a63d-60e38f99533c.PNG)
 ![inmemory2](https://user-images.githubusercontent.com/69547439/201939589-576e32ba-5cdc-458b-912d-8c89805cc672.PNG)
 
+- After configuring your datastore you can use dotnet cli or vs2022 to run the application
+- To run using the dotnet cli type ```dotnet run``` in ```FlapKap.API``` project folder
 
 ## Auther
 [Ahmed Hagag](https://github.com/ahmedhagag900)
