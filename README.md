@@ -44,6 +44,7 @@ The task is to implement a vending machine operations and expose it with RESTFul
 
 - After configuring your datastore you can use dotnet cli or vs2022 to run the application
 - To run using the dotnet cli type ```dotnet run``` in ```FlapKap.API``` project folder
+- After success run you can open your browser to the listening port and append ```/swagger``` to open swager ui.
 
 ## Auther
 [Ahmed Hagag](https://github.com/ahmedhagag900)
