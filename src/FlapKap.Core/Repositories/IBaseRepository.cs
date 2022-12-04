@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace FlapKap.Core.Repositories
+namespace VendingMachine.Core.Repositories
 {
     public interface IBaseRepository<T> where T : class
     {

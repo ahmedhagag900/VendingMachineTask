@@ -1,11 +1,11 @@
-﻿using FlapKap.Core.Enums;
+﻿using VendingMachine.Core.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FlapKap.Application.Models
+namespace VendingMachine.Application.Models
 {
     public class UserModel: BaseModel
     {

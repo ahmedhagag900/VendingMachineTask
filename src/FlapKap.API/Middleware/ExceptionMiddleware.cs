@@ -1,11 +1,11 @@
-﻿using FlapKap.Application.Exceptions;
-using FlapKap.Application.Models;
-using FlapKap.Core.Enums;
+﻿using VendingMachine.Application.Exceptions;
+using VendingMachine.Application.Models;
+using VendingMachine.Core.Enums;
 using Newtonsoft.Json;
 using System.Globalization;
 using System.Net;
 
-namespace FlapKap.API.Middleware
+namespace VendingMachine.API.Middleware
 {
     public class ExceptionMiddleware
     {

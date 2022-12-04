@@ -1,11 +1,11 @@
-using FlapKap.API.Configuration;
-using FlapKap.API.Middleware;
-using FlapKap.Application.IoC;
-using FlapKap.Core;
-using FlapKap.Infrastructure;
-using FlapKap.Infrastructure.IoC;
+using VendingMachine.API.Configuration;
+using VendingMachine.API.Middleware;
+using VendingMachine.Application.IoC;
+using VendingMachine.Core;
+using VendingMachine.Infrastructure;
+using VendingMachine.Infrastructure.IoC;
 
-namespace FlapKap.API
+namespace VendingMachine.API
 {
     public class Program
     {

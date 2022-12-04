@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FlapKap.Application.Interfaces
+namespace VendingMachine.Application.Interfaces
 {
     internal interface ICryprographyService
     {

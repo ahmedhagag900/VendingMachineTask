@@ -1,14 +1,14 @@
-﻿using FlapKap.Application.BusinessRules.ProductRules;
-using FlapKap.Application.Interfaces;
-using FlapKap.Application.Models;
-using FlapKap.Core;
-using FlapKap.Core.Constatnt;
-using FlapKap.Core.Entities;
-using FlapKap.Core.Repositories;
-using FlapKap.Core.UnitOfWork;
+﻿using VendingMachine.Application.BusinessRules.ProductRules;
+using VendingMachine.Application.Interfaces;
+using VendingMachine.Application.Models;
+using VendingMachine.Core;
+using VendingMachine.Core.Constatnt;
+using VendingMachine.Core.Entities;
+using VendingMachine.Core.Repositories;
+using VendingMachine.Core.UnitOfWork;
 using System.Linq.Expressions;
 
-namespace FlapKap.Application.Services
+namespace VendingMachine.Application.Services
 {
     internal class ProductService :ServiceBase,  IProductService
     {

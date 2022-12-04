@@ -1,5 +1,5 @@
-﻿using FlapKap.Application.Interfaces;
-using FlapKap.Application.Services;
+﻿using VendingMachine.Application.Interfaces;
+using VendingMachine.Application.Services;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FlapKap.Application.IoC
+namespace VendingMachine.Application.IoC
 {
     public static class DependencyRegister
     {

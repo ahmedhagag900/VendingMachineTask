@@ -1,9 +1,9 @@
-﻿using FlapKap.Core.Enums;
-using FlapKap.Core.Repositories;
+﻿using VendingMachine.Core.Enums;
+using VendingMachine.Core.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 
-namespace FlapKap.API.Auth
+namespace VendingMachine.API.Auth
 {
     public class UserRoleRequirement:IAuthorizationRequirement
     {

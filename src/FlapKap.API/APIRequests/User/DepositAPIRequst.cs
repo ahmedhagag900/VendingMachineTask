@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using System.Reflection.Metadata;
 
-namespace FlapKap.API.APIRequests.User
+namespace VendingMachine.API.APIRequests.User
 {
     public class DepositAPIRequst
     {

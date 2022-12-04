@@ -1,4 +1,4 @@
-﻿namespace FlapKap.Core.Entities
+﻿namespace VendingMachine.Core.Entities
 {
     public class BuyHistory
     {

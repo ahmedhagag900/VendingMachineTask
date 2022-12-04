@@ -1,7 +1,7 @@
-﻿using FlapKap.Core.Entities;
-using FlapKap.Core.Repositories;
+﻿using VendingMachine.Core.Entities;
+using VendingMachine.Core.Repositories;
 
-namespace FlapKap.Infrastructure.Repositories
+namespace VendingMachine.Infrastructure.Repositories
 {
     internal class ProductRepository:BaseRepository<Product>,IProductRepository
     {

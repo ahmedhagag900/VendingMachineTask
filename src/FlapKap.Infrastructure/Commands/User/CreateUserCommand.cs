@@ -1,5 +1,5 @@
-﻿using FlapKap.Application.Interfaces;
-using FlapKap.Application.Models;
+﻿using VendingMachine.Application.Interfaces;
+using VendingMachine.Application.Models;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FlapKap.Infrastructure.Commands.User
+namespace VendingMachine.Infrastructure.Commands.User
 {
     public class CreateUserCommand:IRequest<UserModel>
     {

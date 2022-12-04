@@ -1,6 +1,6 @@
 ﻿using Azure.Core;
-using FlapKap.Core.UnitOfWork;
-using FlapKap.Infrastructure.Commands;
+using VendingMachine.Core.UnitOfWork;
+using VendingMachine.Infrastructure.Commands;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FlapKap.Infrastructure.PipeLines
+namespace VendingMachine.Infrastructure.PipeLines
 {
     internal class MemoryDBPipeLine<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
     {

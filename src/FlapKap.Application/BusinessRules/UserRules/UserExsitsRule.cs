@@ -1,8 +1,8 @@
-﻿using FlapKap.Application.Interfaces;
-using FlapKap.Core.Enums;
-using FlapKap.Core.Repositories;
+﻿using VendingMachine.Application.Interfaces;
+using VendingMachine.Core.Enums;
+using VendingMachine.Core.Repositories;
 
-namespace FlapKap.Application.BusinessRules.UserRules
+namespace VendingMachine.Application.BusinessRules.UserRules
 {
     internal class UserExsitsRule : IBusinessRule
     {

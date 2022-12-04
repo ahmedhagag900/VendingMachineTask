@@ -1,13 +1,13 @@
-﻿using FlapKap.Application.Interfaces;
-using FlapKap.Core.Enums;
-using FlapKap.Core.Repositories;
+﻿using VendingMachine.Application.Interfaces;
+using VendingMachine.Core.Enums;
+using VendingMachine.Core.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FlapKap.Application.BusinessRules.UserRules
+namespace VendingMachine.Application.BusinessRules.UserRules
 {
     internal class UserNameShouldBeUniqueRule : IBusinessRule
     {

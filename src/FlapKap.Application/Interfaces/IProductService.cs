@@ -1,6 +1,6 @@
-﻿using FlapKap.Application.Models;
+﻿using VendingMachine.Application.Models;
 
-namespace FlapKap.Application.Interfaces
+namespace VendingMachine.Application.Interfaces
 {
     public interface IProductService:IBaseCRUDService<ProductModel>
     {

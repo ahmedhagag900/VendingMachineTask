@@ -1,12 +1,12 @@
-﻿using FlapKap.Application.Exceptions;
-using FlapKap.Application.Interfaces;
+﻿using VendingMachine.Application.Exceptions;
+using VendingMachine.Application.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FlapKap.Application.Services
+namespace VendingMachine.Application.Services
 {
     internal abstract class ServiceBase
     {

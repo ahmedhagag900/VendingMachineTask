@@ -1,19 +1,19 @@
-﻿using FlapKap.API.APIRequests.User;
+﻿using VendingMachine.API.APIRequests.User;
 using FluentValidation.AspNetCore;
 using FluentValidation;
 using Microsoft.OpenApi.Models;
-using FlapKap.API.Constants;
-using FlapKap.Core.Enums;
+using VendingMachine.API.Constants;
+using VendingMachine.Core.Enums;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 using System.Text;
-using FlapKap.Infrastructure;
-using FlapKap.Core;
+using VendingMachine.Infrastructure;
+using VendingMachine.Core;
 using Microsoft.AspNetCore.Authorization;
-using FlapKap.API.Auth;
+using VendingMachine.API.Auth;
 
-namespace FlapKap.API.Configuration
+namespace VendingMachine.API.Configuration
 {
     public static class ServiceConfiguration
     {

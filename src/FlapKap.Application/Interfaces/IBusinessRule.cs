@@ -1,11 +1,11 @@
-﻿using FlapKap.Core.Enums;
+﻿using VendingMachine.Core.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FlapKap.Application.Interfaces
+namespace VendingMachine.Application.Interfaces
 {
     internal interface IBusinessRule
     {

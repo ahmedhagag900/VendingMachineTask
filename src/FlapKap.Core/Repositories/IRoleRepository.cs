@@ -1,6 +1,6 @@
-﻿using FlapKap.Core.Entities;
+﻿using VendingMachine.Core.Entities;
 
-namespace FlapKap.Core.Repositories
+namespace VendingMachine.Core.Repositories
 {
     public interface IRoleRepository:IBaseRepository<Role>
     {

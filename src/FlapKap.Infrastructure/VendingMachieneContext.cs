@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FlapKap.Infrastructure
+namespace VendingMachine.Infrastructure
 {
     public class VendingMachieneContext:DbContext
     {

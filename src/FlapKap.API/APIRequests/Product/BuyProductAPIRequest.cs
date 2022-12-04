@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace FlapKap.API.APIRequests.Product
+namespace VendingMachine.API.APIRequests.Product
 {
     public class BuyProductAPIRequest
     {

@@ -1,12 +1,12 @@
-﻿using FlapKap.Application.BusinessRules.UserRules;
-using FlapKap.Application.Exceptions;
-using FlapKap.Application.Interfaces;
-using FlapKap.Application.Models;
-using FlapKap.Core;
-using FlapKap.Core.Entities;
-using FlapKap.Core.Enums;
-using FlapKap.Core.Repositories;
-using FlapKap.Core.UnitOfWork;
+﻿using VendingMachine.Application.BusinessRules.UserRules;
+using VendingMachine.Application.Exceptions;
+using VendingMachine.Application.Interfaces;
+using VendingMachine.Application.Models;
+using VendingMachine.Core;
+using VendingMachine.Core.Entities;
+using VendingMachine.Core.Enums;
+using VendingMachine.Core.Repositories;
+using VendingMachine.Core.UnitOfWork;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
@@ -15,7 +15,7 @@ using System.Reflection;
 using System.Security.Claims;
 using System.Text;
 
-namespace FlapKap.Application.Services
+namespace VendingMachine.Application.Services
 {
     internal class UserService : ServiceBase, IUserService
     {

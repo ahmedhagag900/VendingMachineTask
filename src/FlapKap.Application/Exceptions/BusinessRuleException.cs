@@ -1,11 +1,11 @@
-﻿using FlapKap.Core.Enums;
+﻿using VendingMachine.Core.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FlapKap.Application.Exceptions
+namespace VendingMachine.Application.Exceptions
 {
     public class BusinessRuleException:Exception
     {

@@ -1,14 +1,14 @@
-﻿using FlapKap.API.APIRequests.User;
-using FlapKap.API.Constants;
-using FlapKap.Application.Models;
-using FlapKap.Infrastructure.Commands.User;
+﻿using VendingMachine.API.APIRequests.User;
+using VendingMachine.API.Constants;
+using VendingMachine.Application.Models;
+using VendingMachine.Infrastructure.Commands.User;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
-namespace FlapKap.API.Controllers
+namespace VendingMachine.API.Controllers
 {
     [ApiController]
     [Route("api/")]

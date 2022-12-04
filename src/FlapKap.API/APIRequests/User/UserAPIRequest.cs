@@ -1,7 +1,7 @@
-﻿using FlapKap.Core.Enums;
+﻿using VendingMachine.Core.Enums;
 using FluentValidation;
 
-namespace FlapKap.API.APIRequests.User
+namespace VendingMachine.API.APIRequests.User
 {
     public class UserAPIRequest
     {

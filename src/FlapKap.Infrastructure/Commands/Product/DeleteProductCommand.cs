@@ -1,4 +1,4 @@
-﻿using FlapKap.Application.Interfaces;
+﻿using VendingMachine.Application.Interfaces;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FlapKap.Infrastructure.Commands.Product
+namespace VendingMachine.Infrastructure.Commands.Product
 {
     public class DeleteProductCommand:IRequest
     {

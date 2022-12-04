@@ -1,15 +1,15 @@
-﻿using FlapKap.Core;
-using FlapKap.Core.Constatnt;
-using FlapKap.Core.Repositories;
-using FlapKap.Core.UnitOfWork;
-using FlapKap.Infrastructure.PipeLines;
-using FlapKap.Infrastructure.Repositories;
-using FlapKap.Infrastructure.UoW;
+﻿using VendingMachine.Core;
+using VendingMachine.Core.Constatnt;
+using VendingMachine.Core.Repositories;
+using VendingMachine.Core.UnitOfWork;
+using VendingMachine.Infrastructure.PipeLines;
+using VendingMachine.Infrastructure.Repositories;
+using VendingMachine.Infrastructure.UoW;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace FlapKap.Infrastructure.IoC
+namespace VendingMachine.Infrastructure.IoC
 {
     public static class DependancyRegister
     {

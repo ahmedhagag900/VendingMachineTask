@@ -1,4 +1,4 @@
-﻿using FlapKap.Core;
+﻿using VendingMachine.Core;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FlapKap.Infrastructure
+namespace VendingMachine.Infrastructure
 {
     internal class ExecutionContext : IExecutionContext
     {

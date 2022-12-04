@@ -1,10 +1,10 @@
-﻿using FlapKap.Core.UnitOfWork;
-using FlapKap.Infrastructure.Commands;
+﻿using VendingMachine.Core.UnitOfWork;
+using VendingMachine.Infrastructure.Commands;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Threading;
 
-namespace FlapKap.Infrastructure.PipeLines
+namespace VendingMachine.Infrastructure.PipeLines
 {
     internal class TransactionPipeLine<TRequest,TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
     {

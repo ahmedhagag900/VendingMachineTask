@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FlapKap.Application.Models
+namespace VendingMachine.Application.Models
 {
     public class LoginModel
     {

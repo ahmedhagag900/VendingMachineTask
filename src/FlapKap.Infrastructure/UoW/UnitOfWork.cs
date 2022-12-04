@@ -1,12 +1,12 @@
-﻿using FlapKap.Core.Repositories;
-using FlapKap.Core.UnitOfWork;
+﻿using VendingMachine.Core.Repositories;
+using VendingMachine.Core.UnitOfWork;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FlapKap.Infrastructure.UoW
+namespace VendingMachine.Infrastructure.UoW
 {
     internal class UnitOfWork : IUnitOfWork
     {

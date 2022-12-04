@@ -1,8 +1,8 @@
-﻿using FlapKap.Core.Entities;
+﻿using VendingMachine.Core.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace FlapKap.Infrastructure.EntitiesConfiguration
+namespace VendingMachine.Infrastructure.EntitiesConfiguration
 {
     internal class UserTypeConfiguration : IEntityTypeConfiguration<User>
     {

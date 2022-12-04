@@ -1,4 +1,4 @@
-﻿namespace FlapKap.API.Constants
+﻿namespace VendingMachine.API.Constants
 {
     public static class Policy
     {

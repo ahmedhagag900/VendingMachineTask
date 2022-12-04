@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace FlapKap.Infrastructure.Migrations
+namespace VendingMachine.Infrastructure.Migrations
 {
     /// <inheritdoc />
     public partial class createTables : Migration

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FlapKap.Core.Enums
+namespace VendingMachine.Core.Enums
 {
     public enum ApplicationCode
     {

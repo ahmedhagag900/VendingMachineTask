@@ -1,6 +1,6 @@
-﻿using FlapKap.Core.Repositories;
+﻿using VendingMachine.Core.Repositories;
 
-namespace FlapKap.Core.UnitOfWork
+namespace VendingMachine.Core.UnitOfWork
 {
     public interface IUnitOfWork
     {

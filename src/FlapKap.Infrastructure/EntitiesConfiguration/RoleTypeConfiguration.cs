@@ -1,9 +1,9 @@
-﻿using FlapKap.Core.Entities;
-using FlapKap.Core.Enums;
+﻿using VendingMachine.Core.Entities;
+using VendingMachine.Core.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace FlapKap.Infrastructure.EntitiesConfiguration
+namespace VendingMachine.Infrastructure.EntitiesConfiguration
 {
     internal class RoleTypeConfiguration : IEntityTypeConfiguration<Role>
     {

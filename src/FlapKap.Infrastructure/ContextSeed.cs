@@ -1,10 +1,10 @@
-﻿using FlapKap.Core.Entities;
-using FlapKap.Core.Enums;
-using FlapKap.Core.Repositories;
-using FlapKap.Core.UnitOfWork;
+﻿using VendingMachine.Core.Entities;
+using VendingMachine.Core.Enums;
+using VendingMachine.Core.Repositories;
+using VendingMachine.Core.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
 
-namespace FlapKap.Infrastructure
+namespace VendingMachine.Infrastructure
 {
     public class ContextSeed
     {

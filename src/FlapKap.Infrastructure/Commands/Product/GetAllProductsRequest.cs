@@ -1,8 +1,8 @@
-﻿using FlapKap.Application.Interfaces;
-using FlapKap.Application.Models;
+﻿using VendingMachine.Application.Interfaces;
+using VendingMachine.Application.Models;
 using MediatR;
 
-namespace FlapKap.Infrastructure.Commands.Product
+namespace VendingMachine.Infrastructure.Commands.Product
 {
     public class GetAllProductsRequest :QueryBase, IRequest<IEnumerable<ProductModel>>
     {

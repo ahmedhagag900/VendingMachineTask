@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FlapKap.Core.Constatnt
+namespace VendingMachine.Core.Constatnt
 {
     public class Constants
     {

@@ -1,9 +1,9 @@
-﻿using FlapKap.Core.Repositories;
+﻿using VendingMachine.Core.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 using System.Linq.Expressions;
 
-namespace FlapKap.Infrastructure.Repositories
+namespace VendingMachine.Infrastructure.Repositories
 {
     internal class BaseRepository<T> : IBaseRepository<T> where T : class
     {

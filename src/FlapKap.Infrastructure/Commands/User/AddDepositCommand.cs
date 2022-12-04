@@ -1,8 +1,8 @@
-﻿using FlapKap.Application.Interfaces;
-using FlapKap.Application.Models;
+﻿using VendingMachine.Application.Interfaces;
+using VendingMachine.Application.Models;
 using MediatR;
 
-namespace FlapKap.Infrastructure.Commands.User
+namespace VendingMachine.Infrastructure.Commands.User
 {
     public class AddDepositCommand:IRequest<DepositModel>
     {

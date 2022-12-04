@@ -1,9 +1,9 @@
-﻿using FlapKap.Application.Interfaces;
-using FlapKap.Application.Models;
-using FlapKap.Core.Repositories;
+﻿using VendingMachine.Application.Interfaces;
+using VendingMachine.Application.Models;
+using VendingMachine.Core.Repositories;
 using MediatR;
 
-namespace FlapKap.Infrastructure.Commands.User
+namespace VendingMachine.Infrastructure.Commands.User
 {
     public class GetAllUsersRequest :QueryBase, IRequest<IEnumerable<UserModel>>
     {
