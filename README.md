@@ -1,6 +1,15 @@
 # VendingMachineTask
 The task is to implement a vending machine operations and expose it with RESTFull APIs<br>
+Allowing users with a ```seller``` role to add, update or remove products,<br> 
+while users with a ```buyer``` role can deposit coins into the machine and make purchases. <br>
+Vending machine should only accept 5, 10, 20, 50 and 100 cent coins
 
+## Requirements
+- Implement CRUD for users (POST dose not require authentication).
+- Implement CRUD for a product model (GET can be called by anyone, while POST, PUT and DELETE can be called only by the seller user who created the
+product)
+- Deposit endpoint so users with a ```buyer``` role can deposit 5, 10, 20, 50 and 100 cent coins into their vending machine account.
+- Buy endpoint so users with a ```buyer``` role can buy products with the money they’ve deposited.
 
 ## System Architecture
 - Used the clean/onion archituctre to implement the soultion. 
