@@ -14,7 +14,7 @@ product)
 ## System Architecture
 - Used the clean/onion archituctre to implement the soultion. 
 - Implement the CQRS pattern to sperate commands from queries.
-- Implement unit of work to ensure the data consistancy & intergraty.
+- Implement unit of work to ensure the data consistancy & integrity.
 
 ![onion](https://miro.medium.com/max/462/1*0Pg6_UsaKiiEqUV3kf2HXg.png)
 
