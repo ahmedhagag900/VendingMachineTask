@@ -1,4 +1,4 @@
-# FlapKapTask
+# VendingMachineTask
 The task is to implement a vending machine operations and expose it with RESTFull APIs<br>
 
 
