@@ -14,7 +14,7 @@ namespace VendingMachine.Application.Services
         {
             if(await businessRule.IsBroken())
             {
-                throw new BusinessRuleException(businessRule.Message, businessRule.ErrorCode);
+                throw new BusinessRuleException(businessRule.Message,businessRule.ErrorCode);
             }
         }
 
