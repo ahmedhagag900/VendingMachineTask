@@ -103,6 +103,10 @@ namespace VendingMachine.API.Configuration
                     builder.RequireAuthenticatedUser();
                     builder.Requirements.Add(new UserRoleRequirement((int)UserRole.SA));
                 });
+                option.AddPolicy("temp", builder =>
+                {
+                    builder.RequireAuthenticatedUser().RequireClaim("momen");
+                });
             });
 
 
